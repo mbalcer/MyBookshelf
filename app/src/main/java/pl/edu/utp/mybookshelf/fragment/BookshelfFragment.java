@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import pl.edu.utp.mybookshelf.R;
@@ -19,17 +20,21 @@ import pl.edu.utp.mybookshelf.model.Book;
 
 public class BookshelfFragment extends Fragment {
 
-    private List<Book> myBooks = new ArrayList();
-    private ListView bookshelfListView;
+    private HashMap<String, List<Book>> myBooks = new HashMap<>();
+    private List<Book> books = new ArrayList();
+    private ExpandableListView bookshelfListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myBooks.add(new Book("J.K. Rowling", "Harry Potter i Kamień Filozoficzny", R.drawable.book_1));
-        myBooks.add(new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1));
-        myBooks.add(new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1));
-        myBooks.add(new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1));
-        myBooks.add(new Book("Adam Mickiewicz", "Pan Tadeusz", R.drawable.book_2));
+        books.add(new Book("J.K. Rowling", "Harry Potter i Kamień Filozoficzny", R.drawable.book_1));
+        books.add(new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1));
+        books.add(new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1));
+        books.add(new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1));
+        books.add(new Book("Adam Mickiewicz", "Pan Tadeusz", R.drawable.book_2));
+
+        myBooks.put("Do przeczytania", books.subList(0, 3));
+        myBooks.put("Przeczytane", books.subList(3,5));
     }
 
     @Override

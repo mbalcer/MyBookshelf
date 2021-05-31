@@ -1,48 +1,60 @@
 package pl.edu.utp.mybookshelf.adapter;
 
 import android.app.Activity;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
 
-public class BookshelfListAdapter implements ListAdapter {
+public class BookshelfListAdapter extends BaseExpandableListAdapter {
 
     private final Activity context;
-    private final List<Book> books;
+    private final Map<String, List<Book>> books;
+    private final List<String> listTitles;
 
-    public BookshelfListAdapter(Activity context, List<Book> books) {
+    public BookshelfListAdapter(Activity context, Map<String, List<Book>> books) {
         this.context = context;
         this.books = books;
+        this.listTitles = books.keySet().stream().collect(Collectors.toList());
     }
 
     @Override
-    public void registerDataSetObserver(DataSetObserver observer) { }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) { }
-
-    @Override
-    public int getCount() {
-        return books.size();
+    public int getGroupCount() {
+        return listTitles.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return books.get(position);
+    public int getChildrenCount(int groupPosition) {
+        return books.get(listTitles.get(groupPosition)).size();
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public Object getGroup(int groupPosition) {
+        return listTitles.get(groupPosition);
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return books.get(listTitles.get(groupPosition)).get(childPosition);
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
     }
 
     @Override
@@ -50,7 +62,19 @@ public class BookshelfListAdapter implements ListAdapter {
         return false;
     }
 
-    public View getView(int position, View view, ViewGroup parent) {
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        String listTitle = (String) getGroup(groupPosition);
+        LayoutInflater inflater = context.getLayoutInflater();
+        convertView = inflater.inflate(R.layout.book_list_group, null);
+
+        TextView listTitleTextView = convertView.findViewById(R.id.book_list_title);
+        listTitleTextView.setText(listTitle);
+        return convertView;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.book_list_item, null,true);
 
@@ -58,35 +82,15 @@ public class BookshelfListAdapter implements ListAdapter {
         TextView authorText = rowView.findViewById(R.id.book_author);
         ImageView imageView = rowView.findViewById(R.id.book_image);
 
-        titleText.setText(books.get(position).getTitle());
-        authorText.setText(books.get(position).getAuthor());
-        imageView.setImageResource(books.get(position).getImage());
+        titleText.setText(books.get(listTitles.get(groupPosition)).get(childPosition).getTitle());
+        authorText.setText(books.get(listTitles.get(groupPosition)).get(childPosition).getAuthor());
+        imageView.setImageResource(books.get(listTitles.get(groupPosition)).get(childPosition).getImage());
 
         return rowView;
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return books.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
 }
