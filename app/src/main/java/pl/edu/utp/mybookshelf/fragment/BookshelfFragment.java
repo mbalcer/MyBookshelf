@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.adapter.BookshelfListAdapter;
@@ -45,16 +45,18 @@ public class BookshelfFragment extends Fragment {
         BookshelfListAdapter adapter = new BookshelfListAdapter(getActivity(), myBooks);
         bookshelfListView = inflate.findViewById(R.id.bookshelf_list);
         bookshelfListView.setAdapter(adapter);
-        bookshelfListView.setOnItemClickListener(bookshelfItemClick());
+        bookshelfListView.setOnChildClickListener(bookshelfItemClick());
 
         return inflate;
     }
 
-    private AdapterView.OnItemClickListener bookshelfItemClick() {
-        return new AdapterView.OnItemClickListener() {
+    private ExpandableListView.OnChildClickListener bookshelfItemClick() {
+        return new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(BookshelfFragment.class.getName(), "Click: " + position + ", book: " + myBooks.get(position));
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Log.d(BookshelfFragment.class.getName(), "Click: " + childPosition + ", book: " +
+                        myBooks.get(myBooks.keySet().stream().collect(Collectors.toList()).get(groupPosition)).get(childPosition));
+                return true;
             }
         };
     }
