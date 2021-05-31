@@ -15,11 +15,17 @@ public class Book {
     private String author;
     private String title;
     private String description;
-    private String image;
+    private Integer image;
     private String isbn;
     private Integer pages;
     private LocalDate publishDate;
 
     private Category category;
     private List<Review> reviews;
+
+    public Book(String author, String title, Integer image) {
+        this.author = author;
+        this.title = title;
+        this.image = image;
+    }
 }
