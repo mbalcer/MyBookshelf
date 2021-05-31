@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MyBookshelf</string>
+    <string name="bookshelf">Bookshelf</string>
+    <string name="explore">Explore</string>
+    <string name="settings">Settings</string>
+
 </resources>
