@@ -12,39 +12,49 @@ import androidx.fragment.app.Fragment;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.adapter.BookshelfListAdapter;
+import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
 
 public class BookshelfFragment extends Fragment {
 
-    private HashMap<String, List<Book>> myBooks = new HashMap<>();
-    private List<Book> books = new ArrayList();
+    private final HashMap<BookState, List<Book>> myBooks = new HashMap<>();
     private ExpandableListView bookshelfListView;
+
+    private List<Book> booksFromRemote = new ArrayList<>();
+
+    private DBHelper dbHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Book hp = new Book(1l, "J.K. Rowling", "Harry Potter i Kamień Filozoficzny",
-                "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. " +
-                        "Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych " +
-                        "okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich " +
-                        "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
-                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), null);
-        books.add(hp);
-        books.add(new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1));
-        books.add(new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1));
-        books.add(new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1));
-        books.add(new Book("Adam Mickiewicz", "Pan Tadeusz", R.drawable.book_2));
+        dbHelper = new DBHelper(getContext());
+        booksFromRemote = getBooksFromRemoteDatabase();
 
-        myBooks.put("Do przeczytania", books.subList(0, 3));
-        myBooks.put("Przeczytane", books.subList(3,5));
+        myBooks.put(BookState.TO_READ, new ArrayList<>());
+        myBooks.put(BookState.READ, new ArrayList<>());
+
+        dbHelper.getAllByBookState(BookState.TO_READ).forEach(local -> {
+            Optional<Book> optionalBook = booksFromRemote.stream()
+                    .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
+            optionalBook.ifPresent(book -> myBooks.get(BookState.TO_READ).add(book));
+        });
+
+        dbHelper.getAllByBookState(BookState.READ).forEach(local -> {
+            Optional<Book> optionalBook = booksFromRemote.stream()
+                    .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
+            optionalBook.ifPresent(book -> myBooks.get(BookState.READ).add(book));
+        });
     }
 
     @Override
@@ -76,5 +86,25 @@ public class BookshelfFragment extends Fragment {
         Intent intent = new Intent(getActivity().getApplicationContext(), BookActivity.class);
         intent.putExtra("book", book);
         startActivity(intent);
+    }
+
+    // TODO: pobieranie książek ze zdalnej bazy danych
+    private List<Book> getBooksFromRemoteDatabase() {
+        Book hp = new Book(1l, "J.K. Rowling", "Harry Potter i Kamień Filozoficzny",
+                "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. " +
+                        "Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych " +
+                        "okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich " +
+                        "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
+                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), null);
+
+        Book book2 = new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1);
+        book2.setId(2L);
+        Book book3 = new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1);
+        book3.setId(3L);
+        Book book4 = new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1);
+        book4.setId(4L);
+        Book book5 = new Book("Adam Mickiewicz", "Pan Tadeusz", R.drawable.book_2);
+        book5.setId(5L);
+        return new ArrayList<>(Arrays.asList(hp, book2, book3, book4, book5));
     }
 }

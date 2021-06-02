@@ -13,14 +13,19 @@ import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.fragment.BookshelfFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.ExploreFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.SettingsFragment;
+import pl.edu.utp.mybookshelf.database.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DBHelper(this);
+        initLocalDatabase();
         loadFragment(new BookshelfFragment());
 
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -49,4 +54,16 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    private void initLocalDatabase() {
+        dbHelper.setBookToRead(1L);
+        dbHelper.setBookToRead(2L);
+        dbHelper.setBookToRead(3L);
+        dbHelper.setBookToRead(4L);
+        dbHelper.setBookToRead(5L);
+        dbHelper.setBookRead(1L);
+        dbHelper.setBookRead(2L);
+        dbHelper.setBookRead(3L);
+    }
+
 }

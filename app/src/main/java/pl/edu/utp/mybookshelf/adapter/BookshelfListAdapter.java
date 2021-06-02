@@ -8,23 +8,24 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.BookState;
 
 public class BookshelfListAdapter extends BaseExpandableListAdapter {
 
     private final Activity context;
-    private final Map<String, List<Book>> books;
-    private final List<String> listTitles;
+    private final Map<BookState, List<Book>> books;
+    private final List<BookState> listTitles;
 
-    public BookshelfListAdapter(Activity context, Map<String, List<Book>> books) {
+    public BookshelfListAdapter(Activity context, Map<BookState, List<Book>> books) {
         this.context = context;
         this.books = books;
-        this.listTitles = books.keySet().stream().collect(Collectors.toList());
+        this.listTitles = new ArrayList<>(books.keySet());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class BookshelfListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(groupPosition);
+        String listTitle = getGroup(groupPosition).toString();
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(R.layout.book_list_group, null);
 
@@ -76,7 +77,7 @@ public class BookshelfListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.book_list_item, null,true);
+        View rowView = inflater.inflate(R.layout.book_list_item, null, true);
 
         TextView titleText = rowView.findViewById(R.id.book_title);
         TextView authorText = rowView.findViewById(R.id.book_author);
