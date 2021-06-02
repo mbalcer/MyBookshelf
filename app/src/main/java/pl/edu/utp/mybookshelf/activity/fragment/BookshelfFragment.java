@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 
 import androidx.fragment.app.Fragment;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.adapter.BookshelfListAdapter;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.Category;
 
 public class BookshelfFragment extends Fragment {
 
@@ -29,7 +31,13 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        books.add(new Book("J.K. Rowling", "Harry Potter i Kamień Filozoficzny", R.drawable.book_1));
+        Book hp = new Book(1l, "J.K. Rowling", "Harry Potter i Kamień Filozoficzny",
+                "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. " +
+                        "Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych " +
+                        "okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich " +
+                        "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
+                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), null);
+        books.add(hp);
         books.add(new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1));
         books.add(new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1));
         books.add(new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1));
