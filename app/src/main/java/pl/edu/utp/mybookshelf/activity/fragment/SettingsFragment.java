@@ -1,4 +1,4 @@
-package pl.edu.utp.mybookshelf.fragment;
+package pl.edu.utp.mybookshelf.activity.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import pl.edu.utp.mybookshelf.R;
 
-public class ExploreFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,6 @@ public class ExploreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_explore, container, false);
+        return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 }

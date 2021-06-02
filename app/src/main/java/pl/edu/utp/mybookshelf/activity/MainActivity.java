@@ -1,4 +1,4 @@
-package pl.edu.utp.mybookshelf;
+package pl.edu.utp.mybookshelf.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import pl.edu.utp.mybookshelf.fragment.BookshelfFragment;
-import pl.edu.utp.mybookshelf.fragment.ExploreFragment;
-import pl.edu.utp.mybookshelf.fragment.SettingsFragment;
+import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.activity.fragment.BookshelfFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.ExploreFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

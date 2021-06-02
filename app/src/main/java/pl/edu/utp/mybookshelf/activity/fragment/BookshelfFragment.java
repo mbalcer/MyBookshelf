@@ -1,5 +1,6 @@
-package pl.edu.utp.mybookshelf.fragment;
+package pl.edu.utp.mybookshelf.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.adapter.BookshelfListAdapter;
 import pl.edu.utp.mybookshelf.model.Book;
 
@@ -54,10 +56,17 @@ public class BookshelfFragment extends Fragment {
         return new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Log.d(BookshelfFragment.class.getName(), "Click: " + childPosition + ", book: " +
-                        myBooks.get(myBooks.keySet().stream().collect(Collectors.toList()).get(groupPosition)).get(childPosition));
+                Book book = myBooks.get(myBooks.keySet().stream().collect(Collectors.toList()).get(groupPosition)).get(childPosition);
+                Log.d(BookshelfFragment.class.getName(), "Click: " + childPosition + ", book: " + book);
+                openBookActivity(book);
                 return true;
             }
         };
+    }
+
+    private void openBookActivity(Book book) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), BookActivity.class);
+        intent.putExtra("book", book);
+        startActivity(intent);
     }
 }
