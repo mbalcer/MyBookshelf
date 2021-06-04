@@ -42,7 +42,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="TextView" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/avg_rating_bar"
+                        style="?android:attr/ratingBarStyleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/golden"
+                        android:progressTint="@color/golden"
+                        android:secondaryProgressTint="@color/golden"
+                        android:transformPivotX="0dp" />
+
+                    <TextView
+                        android:id="@+id/avg_rating_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@id/avg_rating_bar"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.Review;
 
 public class BookActivity extends AppCompatActivity {
 
@@ -45,6 +47,7 @@ public class BookActivity extends AppCompatActivity {
         addInformation("ISBN", book.getIsbn());
         addInformation("Liczba stron", book.getPages());
         addInformation("Data wydania", book.getPublishDate());
+        setRating();
     }
 
     private void addInformation(String name, Object value) {
@@ -67,6 +70,22 @@ public class BookActivity extends AppCompatActivity {
 
             layout.addView(titleText);
             layout.addView(valueText);
+        }
+    }
+
+    private void setRating() {
+        RatingBar ratingBar = findViewById(R.id.avg_rating_bar);
+        TextView ratingText = findViewById(R.id.avg_rating_text);
+
+        if (Optional.ofNullable(book.getReviews()).isPresent() && book.getReviews().size() > 0) {
+            Double avgRating = book.getReviews()
+                    .stream()
+                    .mapToInt(Review::getRating)
+                    .average()
+                    .orElse(Double.NaN);
+
+            ratingBar.setRating(avgRating.floatValue());
+            ratingText.setText(String.format("%.2f", avgRating));
         }
     }
 }

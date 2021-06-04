@@ -25,6 +25,7 @@ import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
+import pl.edu.utp.mybookshelf.model.Review;
 
 public class BookshelfFragment extends Fragment {
 
@@ -90,12 +91,16 @@ public class BookshelfFragment extends Fragment {
 
     // TODO: pobieranie książek ze zdalnej bazy danych
     private List<Book> getBooksFromRemoteDatabase() {
+        Review r1 = new Review(1l, "Dobra książka", 5, null);
+        Review r2 = new Review(2l, "Mogłaby być lepsza", 3, null);
+        Review r3 = new Review(3l, "Nie zachwyca", 2, null);
+
         Book hp = new Book(1l, "J.K. Rowling", "Harry Potter i Kamień Filozoficzny",
                 "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. " +
                         "Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych " +
                         "okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich " +
                         "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
-                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), null);
+                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), Arrays.asList(r1, r2, r3));
 
         Book book2 = new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1);
         book2.setId(2L);
