@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">MyBookshelf</string>
-    <string name="bookshelf">Bookshelf</string>
-    <string name="explore">Explore</string>
-    <string name="settings">Settings</string>
+    <string name="bookshelf">Moja półka</string>
+    <string name="search">Szukaj</string>
+    <string name="settings">Ustawienia</string>
+    <string name="search_book">Szukaj książki</string>
+    <string name="scan_button">Przycisk do skanowania ISBN</string>
+    <string name="enter_title">Wpisz tytuł</string>
 
 </resources>

@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.fragment.BookshelfFragment;
-import pl.edu.utp.mybookshelf.activity.fragment.ExploreFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.SearchFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.SettingsFragment;
 import pl.edu.utp.mybookshelf.database.DBHelper;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new BookshelfFragment());
                     break;
                 case R.id.explore_page:
-                    loadFragment(new ExploreFragment());
+                    loadFragment(new SearchFragment());
                     break;
                 case R.id.settings_page:
                     loadFragment(new SettingsFragment());
