@@ -102,9 +102,9 @@ public class BookshelfFragment extends Fragment {
                         "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
                 "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), Arrays.asList(r1, r2, r3));
 
-        Book book2 = new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1);
+        Book book2 = new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic");
         book2.setId(2L);
-        Book book3 = new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu", R.drawable.book_1);
+        Book book3 = new Book("J.K. Rowling", "Harry Potter i Więzień Azkabanu");
         book3.setId(3L);
         Book book4 = new Book("J.K. Rowling", "Harry Potter i Czara Ognia", R.drawable.book_1);
         book4.setId(4L);
