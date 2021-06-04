@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654726529171",
+    "project_id": "mybookshelf-f2916",
+    "storage_bucket": "mybookshelf-f2916.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654726529171:android:638af7dbd881860d614d66",
+        "android_client_info": {
+          "package_name": "pl.edu.utp.mybookshelf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654726529171-cko86o379o46c0kdlc0q3l5t4pd678en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD5--i18YL5f5yhCz-dmSVZVXES17v65A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654726529171-cko86o379o46c0kdlc0q3l5t4pd678en.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
