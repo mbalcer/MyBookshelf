@@ -28,7 +28,6 @@
                     android:id="@+id/book_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="5dp"
                     android:padding="2dp"
                     android:text="Medium Text"
@@ -40,7 +39,7 @@
                     android:id="@+id/book_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:padding="2dp"
                     android:text="TextView" />
 
                 <RelativeLayout
@@ -55,6 +54,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/golden"
                         android:progressTint="@color/golden"
+                        android:padding="2dp"
                         android:secondaryProgressTint="@color/golden"
                         android:transformPivotX="0dp" />
 
@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_toEndOf="@id/avg_rating_bar"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -72,6 +72,20 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/book_details_menu">
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+
     </LinearLayout>
 
 </ScrollView>

@@ -8,10 +8,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.adapter.BookViewPagerAdapter;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Review;
 
@@ -19,6 +26,7 @@ public class BookActivity extends AppCompatActivity {
 
     private Book book;
     private LinearLayout layout;
+    private List<String> tabTitles = Arrays.asList("Moje dane", "Info", "Opinie");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +46,24 @@ public class BookActivity extends AppCompatActivity {
         authorText.setText(book.getAuthor());
         imageView.setImageResource(book.getImage());
 
-        addInformation("Tytuł", book.getTitle());
-        addInformation("Autor", book.getAuthor());
-        addInformation("Opis", book.getDescription());
-        if (Optional.ofNullable(book.getCategory()).isPresent()) {
-            addInformation("Kategoria", book.getCategory().getName());
-        }
-        addInformation("ISBN", book.getIsbn());
-        addInformation("Liczba stron", book.getPages());
-        addInformation("Data wydania", book.getPublishDate());
-        setRating();
+//        addInformation("Tytuł", book.getTitle());
+//        addInformation("Autor", book.getAuthor());
+//        addInformation("Opis", book.getDescription());
+//        if (Optional.ofNullable(book.getCategory()).isPresent()) {
+//            addInformation("Kategoria", book.getCategory().getName());
+//        }
+//        addInformation("ISBN", book.getIsbn());
+//        addInformation("Liczba stron", book.getPages());
+//        addInformation("Data wydania", book.getPublishDate());
+//        setRating();
+
+        ViewPager2 viewPager = findViewById(R.id.viewpager);
+        BookViewPagerAdapter pagerAdapter = new BookViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        viewPager.setAdapter(pagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.book_details_menu);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(tabTitles.get(position))).attach();
     }
 
     private void addInformation(String name, Object value) {
