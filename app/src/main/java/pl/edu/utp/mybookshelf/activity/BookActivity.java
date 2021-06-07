@@ -1,31 +1,36 @@
 package pl.edu.utp.mybookshelf.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import pl.edu.utp.mybookshelf.R;
-import pl.edu.utp.mybookshelf.adapter.BookViewPagerAdapter;
+import pl.edu.utp.mybookshelf.activity.fragment.BookInfoFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.BookMyDataFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.BookReviewsFragment;
+import pl.edu.utp.mybookshelf.adapter.ViewPagerAdapter;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Review;
 
 public class BookActivity extends AppCompatActivity {
 
     private Book book;
-    private LinearLayout layout;
-    private List<String> tabTitles = Arrays.asList("Moje dane", "Info", "Opinie");
+    private List<String> titleTabs = new ArrayList<>();
+    private List<Fragment> tabs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class BookActivity extends AppCompatActivity {
             book = (Book) getIntent().getExtras().getSerializable("book");
         }
 
-        layout = findViewById(R.id.activity_book_layout);
+        initTabs();
 
         TextView titleText = findViewById(R.id.book_title);
         TextView authorText = findViewById(R.id.book_author);
@@ -47,16 +52,28 @@ public class BookActivity extends AppCompatActivity {
         setRating();
 
         ViewPager2 viewPager = findViewById(R.id.viewpager);
-        BookViewPagerAdapter pagerAdapter = new BookViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle(), tabs);
         viewPager.setAdapter(pagerAdapter);
-
         TabLayout tabLayout = findViewById(R.id.book_details_menu);
 
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(tabTitles.get(position))).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titleTabs.get(position))).attach();
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                if (getSupportFragmentManager().getFragments().size() > position) {
+                    Fragment fragment = getSupportFragmentManager().getFragments().get(position);
+                    View view = fragment.getView();
+                    int wMeasureSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY);
+                    int hMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    view.measure(wMeasureSpec, hMeasureSpec);
+
+                    if (viewPager.getLayoutParams().height != view.getMeasuredHeight()) {
+                        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
+                        layoutParams.height = view.getMeasuredHeight();
+                        viewPager.setLayoutParams(layoutParams);
+                    }
+                }
             }
         });
     }
@@ -75,5 +92,16 @@ public class BookActivity extends AppCompatActivity {
             ratingBar.setRating(avgRating.floatValue());
             ratingText.setText(String.format("%.2f", avgRating));
         }
+    }
+
+    private void initTabs() {
+        titleTabs.add("Info");
+        tabs.add(new BookInfoFragment());
+
+        titleTabs.add("Moje dane");
+        tabs.add(new BookMyDataFragment());
+
+        titleTabs.add("Opinie");
+        tabs.add(new BookReviewsFragment());
     }
 }
