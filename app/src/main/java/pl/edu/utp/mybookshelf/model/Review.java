@@ -1,6 +1,7 @@
 package pl.edu.utp.mybookshelf.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +14,6 @@ public class Review implements Serializable {
     private Long id;
     private String text;
     private Integer rating;
+    private LocalDateTime reviewTime;
     private User user;
 }

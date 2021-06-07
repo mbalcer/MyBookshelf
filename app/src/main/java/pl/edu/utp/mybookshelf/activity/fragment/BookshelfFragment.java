@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import androidx.fragment.app.Fragment;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
 import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.model.User;
 
 public class BookshelfFragment extends Fragment {
 
@@ -91,9 +93,10 @@ public class BookshelfFragment extends Fragment {
 
     // TODO: pobieranie książek ze zdalnej bazy danych
     private List<Book> getBooksFromRemoteDatabase() {
-        Review r1 = new Review(1l, "Dobra książka", 5, null);
-        Review r2 = new Review(2l, "Mogłaby być lepsza", 3, null);
-        Review r3 = new Review(3l, "Nie zachwyca", 2, null);
+        User user = new User(1l, "111", "222", "Jan Kowalski");
+        Review r1 = new Review(1l, "Dobra książka", 5, LocalDateTime.now().minusDays(2), user);
+        Review r2 = new Review(2l, "Mogłaby być lepsza", 3, LocalDateTime.now().minusHours(2), user);
+        Review r3 = new Review(3l, "Nie zachwyca", 2, LocalDateTime.now(), user);
 
         Book hp = new Book(1l, "J.K. Rowling", "Harry Potter i Kamień Filozoficzny",
                 "Książka „Harry Potter i Kamień Filozoficzny” rozpoczyna cykl o młodym czarodzieju i jego licznych przygodach. " +
