@@ -44,17 +44,18 @@ public class FirebaseBook {
                 }
                 book.setCategory(category);
 
-                List<Review> reviews = null;
+                List<Review> reviews = new ArrayList<>();
                 if (document.get("reviews") instanceof List) {
                     List<HashMap<String, Object>> reviewObjects = (List<HashMap<String, Object>>) document.get("reviews");
                     for (HashMap<String, Object> reviewObject : reviewObjects) {
                         Review review = new Review();
                         review.setId((Long) reviewObject.get("id"));
                         review.setText((String) reviewObject.get("text"));
-                        Integer rating = document.get("rating") == null ? null : ((Long) document.get("rating")).intValue();
+                        Integer rating = reviewObject.get("rating") == null ? null : ((Long) reviewObject.get("rating")).intValue();
                         review.setRating(rating);
 //                        TODO: user setting
 //                        review.setUser();
+                        reviews.add(review);
                     }
                     book.setReviews(reviews);
                 }
