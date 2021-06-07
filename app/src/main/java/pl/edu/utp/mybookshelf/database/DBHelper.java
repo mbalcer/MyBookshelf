@@ -5,10 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.UserBook;
@@ -18,6 +17,7 @@ import static pl.edu.utp.mybookshelf.database.DBHandler.*;
 public class DBHelper {
 
     private static DBHandler dbHandler;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public DBHelper(Context context) {
         dbHandler = DBHandler.getInstance(context);
@@ -65,20 +65,22 @@ public class DBHelper {
         return list;
     }
 
-    public long setBookToRead(Long bookId) {
+    public long setBookAsToRead(Long bookId) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BOOKS_COLUMN_BOOK_ID, bookId);
         contentValues.put(BOOKS_COLUMN_STATE, BookState.TO_READ.name());
-        contentValues.put(BOOKS_COLUMN_UPDATE_DATE, String.valueOf(new Date()));
+        contentValues.put(BOOKS_COLUMN_UPDATE_DATE, getStringFromDate(LocalDateTime.now()));
+
         return db.insert(BOOKS_TABLE_NAME, null, contentValues);
     }
 
-    public boolean setBookRead(Long bookId) {
+    public boolean setBookAsRead(Long bookId) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BOOKS_COLUMN_STATE, BookState.READ.name());
-        contentValues.put(BOOKS_COLUMN_UPDATE_DATE, String.valueOf(new Date()));
+        contentValues.put(BOOKS_COLUMN_UPDATE_DATE, getStringFromDate(LocalDateTime.now()));
+
         return db.update(BOOKS_TABLE_NAME, contentValues, BOOKS_COLUMN_BOOK_ID + " = ? ",
                 new String[]{Long.toString(bookId)}) > 0;
     }
@@ -94,14 +96,12 @@ public class DBHelper {
         return db.delete(BOOKS_TABLE_NAME, null, null) > 0;
     }
 
-    private static Date getDateFromString(String dateText) {
-        Date date = new Date();
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+    private static String getStringFromDate(LocalDateTime date) {
+        return date.format(DATE_FORMATTER);
+    }
+
+    private static LocalDateTime getDateFromString(String dateText) {
+        return LocalDateTime.parse(dateText, DATE_FORMATTER);
     }
 
 }

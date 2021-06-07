@@ -41,7 +41,7 @@ public class SearchFragment extends Fragment {
                         "Tytułowy Harry Potter wychowywany jest przez nieprzychylnych mu ciotkę i wuja. Jego rodzice zginęli w tajemniczych " +
                         "okolicznościach, a jedyne, co mu po nich pozostało to blizna na czole w kształcie błyskawicy. W dniu swoich " +
                         "11. urodzin bohater dowiaduje się, że istnieje świat, o którym nie miał pojęcia", R.drawable.book_1,
-                "9877323132", 326, LocalDate.of(1997, 10, 1), new Category(1l, "Fantasy"), null);
+                "9877323132", 326, LocalDate.of(1997, 10, 1).toString(), new Category(1l, "Fantasy"), null);
 
         allBooks.add(hp);
         allBooks.add(new Book("J.K. Rowling", "Harry Potter i Komnata Tajemnic", R.drawable.book_1));
