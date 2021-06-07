@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/review_user"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="User"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+        <RatingBar
+            android:id="@+id/review_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/golden"
+            android:progressTint="@color/golden"
+            android:secondaryProgressTint="@color/golden"
+            android:transformPivotX="0dp" />
+
+        <TextView
+            android:id="@+id/review_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="2021-05-12 8:15"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@id/review_rating"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/review_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Review"
+        android:textSize="14dp"/>
+
+</LinearLayout>

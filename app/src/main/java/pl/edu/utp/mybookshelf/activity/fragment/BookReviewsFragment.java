@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -33,7 +34,24 @@ public class BookReviewsFragment extends Fragment {
         layout = inflate.findViewById(R.id.reviews_list_view);
         ReviewListAdapter adapter = new ReviewListAdapter(getActivity(), book.getReviews());
         layout.setAdapter(adapter);
+        setListViewHeightBasedOnChildren();
 
         return inflate;
+    }
+
+    private void setListViewHeightBasedOnChildren() {
+        ListAdapter adapter = layout.getAdapter();
+        if (layout != null) {
+            int totalHeight = 0;
+            for (int i = 0; i < adapter.getCount(); i++) {
+                View item = adapter.getView(i, null, layout);
+                item.measure(0, 0);
+                totalHeight += item.getMeasuredHeight();
+            }
+
+            ViewGroup.LayoutParams params = layout.getLayoutParams();
+            params.height = totalHeight + (layout.getDividerHeight() * (adapter.getCount() - 1));
+            layout.setLayoutParams(params);
+        }
     }
 }
