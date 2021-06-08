@@ -14,6 +14,6 @@ public class Review implements Serializable {
     private Long id;
     private String text;
     private Integer rating;
-    private LocalDateTime reviewTime;
+    private LocalDateTime reviewTime = LocalDateTime.now();
     private User user;
 }

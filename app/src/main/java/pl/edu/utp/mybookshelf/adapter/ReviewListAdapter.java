@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -64,7 +65,13 @@ public class ReviewListAdapter implements ListAdapter {
         userText.setText(reviews.get(position).getUser().getFullName());
         ratingBar.setRating(reviews.get(position).getRating());
         timeText.setText(reviews.get(position).getReviewTime().format(formatter));
-        reviewText.setText(reviews.get(position).getText());
+        if(reviews.get(position).getText() != null && !reviews.get(position).getText().isEmpty())
+            reviewText.setText(reviews.get(position).getText());
+        else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0,0 ,0);
+            reviewText.setLayoutParams(params);
+        }
 
         return rowView;
     }

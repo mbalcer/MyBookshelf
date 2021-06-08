@@ -9,5 +9,6 @@
     <string name="book_info">Info</string>
     <string name="book_reviews">Opinie</string>
     <string name="book_my_data">Moje dane</string>
+    <string name="info_zero_reviews">Brak opinii o tej książce</string>
 
 </resources>
