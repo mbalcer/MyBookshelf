@@ -1,7 +1,6 @@
 package pl.edu.utp.mybookshelf.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ public class Book implements Serializable {
     private Integer image = R.drawable.unknown_book;
     private String isbn;
     private Integer pages;
-    private LocalDate publishDate;
+    private String publishDate;
 
     private Category category;
     private List<Review> reviews;

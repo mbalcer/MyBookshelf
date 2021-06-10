@@ -32,7 +32,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String createQuery = "create table " + BOOKS_TABLE_NAME + " (" +
                 BOOKS_COLUMN_BOOK_ID + " integer primary key, " +
                 BOOKS_COLUMN_STATE + " text not null, " +
-                BOOKS_COLUMN_UPDATE_DATE + " date not null)";
+                BOOKS_COLUMN_UPDATE_DATE + " text not null)";
         db.execSQL(createQuery);
     }
 

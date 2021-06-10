@@ -1,6 +1,6 @@
 package pl.edu.utp.mybookshelf.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +13,6 @@ public class UserBook {
 
     private Long bookId;
     private BookState state;
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
 }
