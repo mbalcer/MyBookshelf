@@ -62,7 +62,9 @@ public class ReviewListAdapter implements ListAdapter {
         TextView reviewText = rowView.findViewById(R.id.review_text);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        userText.setText(reviews.get(position).getUser().getFullName());
+        if (reviews.get(position).getUser() != null && !reviews.get(position).getUser().getFullName().isEmpty()) {
+            userText.setText(reviews.get(position).getUser().getFullName());
+        }
         ratingBar.setRating(reviews.get(position).getRating());
         timeText.setText(reviews.get(position).getReviewTime().format(formatter));
         if(reviews.get(position).getText() != null && !reviews.get(position).getText().isEmpty())
