@@ -10,5 +10,9 @@
     <string name="book_reviews">Opinie</string>
     <string name="book_my_data">Moje dane</string>
     <string name="info_zero_reviews">Brak opinii o tej książce</string>
+    <string name="is_read">Przeczytane?</string>
+    <string name="your_review_text">Twoja opinia</string>
+    <string name="enter_review">Wpisz recenzję</string>
+    <string name="add_review_text">Dodaj recenzję</string>
 
 </resources>
