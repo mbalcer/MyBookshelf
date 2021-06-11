@@ -30,7 +30,7 @@
             android:id="@+id/search_book_text_layout"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_title"
+            android:hint="@string/search_hint"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText

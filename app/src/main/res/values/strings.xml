@@ -3,16 +3,29 @@
     <string name="bookshelf">Moja półka</string>
     <string name="search">Szukaj</string>
     <string name="settings">Ustawienia</string>
+
     <string name="search_book">Szukaj książki</string>
-    <string name="scan_button">Przycisk do skanowania ISBN</string>
-    <string name="enter_title">Wpisz tytuł, autora lub isbn</string>
+    <string name="search_hint">Wpisz tytuł, autora lub isbn</string>
+
     <string name="book_info">Info</string>
     <string name="book_reviews">Opinie</string>
     <string name="book_my_data">Moje dane</string>
+
     <string name="info_zero_reviews">Brak opinii o tej książce</string>
     <string name="is_read">Przeczytane?</string>
     <string name="your_review_text">Twoja opinia</string>
     <string name="enter_review">Wpisz recenzję</string>
     <string name="add_review_text">Dodaj recenzję</string>
 
+    <string name="title_hint">Tytuł</string>
+    <string name="author_hint">Autor</string>
+    <string name="description_hint">Opis</string>
+    <string name="isbn_hint">ISBN</string>
+    <string name="pages_hint">Liczba stron</string>
+    <string name="publish_date_hint">Data wydania</string>
+    <string name="category_hint">Kategoria</string>
+    <string name="add_book_button">Dodaj książkę</string>
+
+    <string name="scan_button">Przycisk do skanowania ISBN</string>
+    <string name="date_picker_button">Przycisk wyboru daty</string>
 </resources>
