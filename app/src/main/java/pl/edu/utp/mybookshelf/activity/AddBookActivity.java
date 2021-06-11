@@ -1,6 +1,11 @@
 package pl.edu.utp.mybookshelf.activity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +16,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Arrays;
+import java.util.List;
 
 import pl.edu.utp.mybookshelf.R;
 
@@ -28,6 +35,8 @@ public class AddBookActivity extends AppCompatActivity {
 
         publishDateLayout.setEndIconOnClickListener(view -> datePicker.show(getSupportFragmentManager(), AddBookActivity.class.getName()));
         publishDateEditText.setOnClickListener(view -> datePicker.show(getSupportFragmentManager(), AddBookActivity.class.getName()));
+
+        initSpinner();
     }
 
     private void initDatePicker(TextInputEditText publishDateEditText) {
@@ -45,6 +54,27 @@ public class AddBookActivity extends AppCompatActivity {
             DateTimeFormatter editTextFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(datePicker.getHeaderText(), datePickerFormatter);
             publishDateEditText.setText(editTextFormatter.format(date));
+        });
+    }
+
+    private void initSpinner() {
+        Spinner categorySpinner = findViewById(R.id.add_book_category);
+        List<String> categories = Arrays.asList("Fantasy", "Horror", "Dramat"); // TODO: get categories from database
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(dataAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String category = parent.getItemAtPosition(position).toString();
+                Log.d(AddBookActivity.class.getName(), "Selected: " + category);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 }
