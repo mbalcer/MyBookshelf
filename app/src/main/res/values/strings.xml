@@ -23,6 +23,7 @@
     <string name="isbn_hint">ISBN</string>
     <string name="pages_hint">Liczba stron</string>
     <string name="publish_date_hint">Data wydania</string>
+    <string name="select_date">Wybierz datę</string>
     <string name="category_hint">Kategoria</string>
     <string name="add_book_button">Dodaj książkę</string>
 
