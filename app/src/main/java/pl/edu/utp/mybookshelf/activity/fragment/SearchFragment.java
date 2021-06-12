@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.activity.AddBookActivity;
 import pl.edu.utp.mybookshelf.activity.BookActivity;
+import pl.edu.utp.mybookshelf.activity.ScannerActivity;
 import pl.edu.utp.mybookshelf.adapter.SearchResultListAdapter;
 import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.model.Book;
@@ -70,7 +72,7 @@ public class SearchFragment extends Fragment {
                     } else {
                         SearchResultListAdapter adapter = new SearchResultListAdapter(getActivity(), Arrays.asList(new Book("Kliknij tutaj aby dodać nową książkę", "Nie znaleziono szukanej książki")));
                         searchBookResultList.setAdapter(adapter);
-                        searchBookResultList.setOnItemClickListener(null);
+                        searchBookResultList.setOnItemClickListener(openAddBookForm());
                     }
                 }
             }
@@ -92,9 +94,23 @@ public class SearchFragment extends Fragment {
         };
     }
 
+    private AdapterView.OnItemClickListener openAddBookForm() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openActivity(AddBookActivity.class);
+            }
+        };
+    }
+
     private void openBookActivity(Book book) {
         Intent intent = new Intent(getActivity().getApplicationContext(), BookActivity.class);
         intent.putExtra("book", book);
+        startActivity(intent);
+    }
+
+    private void openActivity(Class<?> activity) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), activity);
         startActivity(intent);
     }
 }
