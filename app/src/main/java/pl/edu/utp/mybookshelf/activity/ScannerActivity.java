@@ -22,6 +22,7 @@ public class ScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanner);
         if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("addBookActivity") != null) {
             parentClassIsAddBookActivity = getIntent().getExtras().getBoolean("addBookActivity");
+            getIntent().removeExtra("addBookActivity");
         }
 
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);

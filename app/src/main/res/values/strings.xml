@@ -17,6 +17,7 @@
     <string name="enter_review">Wpisz recenzję</string>
     <string name="add_review_text">Dodaj recenzję</string>
 
+    <string name="add_book_info">Dodawaj nową książkę</string>
     <string name="title_hint">Tytuł</string>
     <string name="author_hint">Autor</string>
     <string name="description_hint">Opis</string>

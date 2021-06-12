@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -28,6 +29,8 @@ import pl.edu.utp.mybookshelf.model.Review;
 
 public class BookActivity extends AppCompatActivity {
 
+    private ActionBar toolbar;
+
     private Book book;
     private List<String> titleTabs = new ArrayList<>();
     private List<Fragment> tabs = new ArrayList<>();
@@ -36,8 +39,10 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+        toolbar = getSupportActionBar();
         if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("book") != null) {
             book = (Book) getIntent().getExtras().getSerializable("book");
+            toolbar.setTitle(book.getTitle());
         }
 
         initTabs();

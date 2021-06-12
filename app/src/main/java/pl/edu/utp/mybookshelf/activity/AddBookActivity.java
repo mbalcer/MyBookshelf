@@ -37,7 +37,7 @@ public class AddBookActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("scannedIsbn") != null) {
             String isbn = getIntent().getExtras().getString("scannedIsbn");
             isbnEditText.setText(isbn);
-            getIntent().getExtras().clear();
+            getIntent().removeExtra("scannedIsbn");
         }
 
         TextInputLayout publishDateLayout = findViewById(R.id.add_book_publish_date_layout);

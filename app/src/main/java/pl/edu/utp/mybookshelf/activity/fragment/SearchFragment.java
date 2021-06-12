@@ -55,7 +55,8 @@ public class SearchFragment extends Fragment {
             } else {
                 setEmptySearchResultAdapter();
             }
-            getActivity().getIntent().getExtras().clear();
+            getActivity().getIntent().removeExtra("resultScanner");
+            getActivity().getIntent().removeExtra("scannedBook");
         }
 
         FloatingActionButton scanBookButton = inflate.findViewById(R.id.scan_book_button);
@@ -69,7 +70,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length() > 3) {
+                if (s.toString().length() >= 3) {
                     booksFound = allBooks.stream()
                             .filter(book -> {
                                 int indexTitle = book.getTitle().toLowerCase().indexOf(String.valueOf(s).toLowerCase());

@@ -3,6 +3,7 @@ package pl.edu.utp.mybookshelf.activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,12 +18,14 @@ import pl.edu.utp.mybookshelf.database.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActionBar toolbar;
     private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = getSupportActionBar();
 
         dbHelper = new DBHelper(this);
         initLocalDatabase();
@@ -40,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.bookshelf_page:
                     loadFragment(new BookshelfFragment());
+                    toolbar.setTitle(R.string.bookshelf);
                     break;
                 case R.id.explore_page:
                     loadFragment(new SearchFragment());
+                    toolbar.setTitle(R.string.search);
                     break;
                 case R.id.settings_page:
                     loadFragment(new SettingsFragment());
+                    toolbar.setTitle(R.string.settings);
                     break;
                 default:
                     Log.e(MainActivity.class.getName(), "Item id was not found");
