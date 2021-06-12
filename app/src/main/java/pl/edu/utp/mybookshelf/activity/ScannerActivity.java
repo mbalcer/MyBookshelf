@@ -14,11 +14,15 @@ import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
 
 public class ScannerActivity extends AppCompatActivity {
+    boolean parentClassIsAddBookActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("addBookActivity") != null) {
+            parentClassIsAddBookActivity = getIntent().getExtras().getBoolean("addBookActivity");
+        }
 
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.EAN_13);
@@ -33,9 +37,14 @@ public class ScannerActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            if (result.getContents() != null) {
-                Optional<Book> optionalBook = getBookByIsbn(result.getContents());
-                backToSearchActivity(optionalBook);
+            String isbn = result.getContents();
+            if (isbn != null) {
+                if (parentClassIsAddBookActivity) {
+                    backToAddBookActivity(isbn);
+                } else {
+                    Optional<Book> optionalBook = getBookByIsbn(isbn);
+                    backToSearchActivity(optionalBook);
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -56,4 +65,11 @@ public class ScannerActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
+
+    private void backToAddBookActivity(String isbn) {
+        Intent intent = new Intent(getBaseContext(), AddBookActivity.class);
+        intent.putExtra("scannedIsbn", isbn);
+        startActivity(intent);
+    }
+
 }

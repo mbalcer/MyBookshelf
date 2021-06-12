@@ -1,5 +1,6 @@
 package pl.edu.utp.mybookshelf.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,16 @@ public class AddBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book);
+
+        TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
+        TextInputEditText isbnEditText = findViewById(R.id.add_book_isbn);
+        isbnLayout.setEndIconOnClickListener(view -> openScanner());
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("scannedIsbn") != null) {
+            String isbn = getIntent().getExtras().getString("scannedIsbn");
+            isbnEditText.setText(isbn);
+            getIntent().getExtras().clear();
+        }
 
         TextInputLayout publishDateLayout = findViewById(R.id.add_book_publish_date_layout);
         TextInputEditText publishDateEditText = findViewById(R.id.add_book_publish_date);
@@ -76,5 +87,11 @@ public class AddBookActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private void openScanner() {
+        Intent intent = new Intent(getApplicationContext(), ScannerActivity.class);
+        intent.putExtra("addBookActivity", true);
+        startActivity(intent);
     }
 }
