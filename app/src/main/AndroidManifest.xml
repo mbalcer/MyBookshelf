@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="pl.edu.utp.mybookshelf">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BookActivity"></activity>
-        <activity android:name=".activity.AddBookActivity"></activity>
+        <activity android:name=".activity.BookActivity" />
+        <activity android:name=".activity.AddBookActivity" />
+        <activity android:name=".activity.ScannerActivity" />
 
     </application>
 

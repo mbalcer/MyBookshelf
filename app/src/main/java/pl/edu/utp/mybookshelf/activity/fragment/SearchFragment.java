@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class SearchFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_search, container, false);
 
         searchBookResultList = inflate.findViewById(R.id.search_book_result_list);
+        FloatingActionButton scanBookButton = inflate.findViewById(R.id.scan_book_button);
+        scanBookButton.setOnClickListener(view -> openActivity(ScannerActivity.class));
 
         TextInputEditText searchBookText = inflate.findViewById(R.id.search_book_text);
         searchBookText.addTextChangedListener(new TextWatcher() {

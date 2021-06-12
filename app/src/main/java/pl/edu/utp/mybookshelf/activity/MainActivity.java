@@ -26,9 +26,16 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
         initLocalDatabase();
-        loadFragment(new BookshelfFragment());
 
-        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("resultScanner") != null) {
+            loadFragment(new SearchFragment());
+            bottomNavigation.setSelectedItemId(R.id.explore_page);
+        } else {
+            loadFragment(new BookshelfFragment());
+        }
+
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.bookshelf_page:
