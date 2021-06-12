@@ -21,7 +21,9 @@ public class ScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanner);
 
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.EAN_13);
+        intentIntegrator.setCaptureActivity(CaptureActivityPortrait.class);
+        intentIntegrator.setOrientationLocked(false);
         intentIntegrator.setPrompt("Zeskanuj ISBN książki");
         intentIntegrator.setCameraId(0);
         intentIntegrator.initiateScan();

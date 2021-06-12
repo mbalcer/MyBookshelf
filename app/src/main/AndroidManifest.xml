@@ -23,6 +23,11 @@
         <activity android:name=".activity.BookActivity" />
         <activity android:name=".activity.AddBookActivity" />
         <activity android:name=".activity.ScannerActivity" />
+        <activity android:name=".activity.CaptureActivityPortrait"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
     </application>
 
