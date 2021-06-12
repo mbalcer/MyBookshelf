@@ -44,8 +44,20 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_search, container, false);
-
         searchBookResultList = inflate.findViewById(R.id.search_book_result_list);
+
+        if (getActivity().getIntent().getExtras() != null && getActivity().getIntent().getExtras().getSerializable("resultScanner") != null) {
+            boolean resultScanner = getActivity().getIntent().getExtras().getBoolean("resultScanner");
+            if (resultScanner) {
+                Book scannedBook = (Book) getActivity().getIntent().getExtras().getSerializable("scannedBook");
+                booksFound.add(scannedBook);
+                setSearchResultAdapter();
+            } else {
+                setEmptySearchResultAdapter();
+            }
+            getActivity().getIntent().getExtras().clear();
+        }
+
         FloatingActionButton scanBookButton = inflate.findViewById(R.id.scan_book_button);
         scanBookButton.setOnClickListener(view -> openActivity(ScannerActivity.class));
 
@@ -69,13 +81,9 @@ public class SearchFragment extends Fragment {
                             .collect(Collectors.toList());
 
                     if (booksFound.size() > 0) {
-                        SearchResultListAdapter adapter = new SearchResultListAdapter(getActivity(), booksFound);
-                        searchBookResultList.setAdapter(adapter);
-                        searchBookResultList.setOnItemClickListener(bookItemClick());
+                        setSearchResultAdapter();
                     } else {
-                        SearchResultListAdapter adapter = new SearchResultListAdapter(getActivity(), Arrays.asList(new Book("Kliknij tutaj aby dodać nową książkę", "Nie znaleziono szukanej książki")));
-                        searchBookResultList.setAdapter(adapter);
-                        searchBookResultList.setOnItemClickListener(openAddBookForm());
+                        setEmptySearchResultAdapter();
                     }
                 }
             }
@@ -86,6 +94,18 @@ public class SearchFragment extends Fragment {
         });
 
         return inflate;
+    }
+
+    private void setEmptySearchResultAdapter() {
+        SearchResultListAdapter adapter = new SearchResultListAdapter(getActivity(), Arrays.asList(new Book("Kliknij tutaj aby dodać nową książkę", "Nie znaleziono szukanej książki")));
+        searchBookResultList.setAdapter(adapter);
+        searchBookResultList.setOnItemClickListener(openAddBookForm());
+    }
+
+    private void setSearchResultAdapter() {
+        SearchResultListAdapter adapter = new SearchResultListAdapter(getActivity(), booksFound);
+        searchBookResultList.setAdapter(adapter);
+        searchBookResultList.setOnItemClickListener(bookItemClick());
     }
 
     private AdapterView.OnItemClickListener bookItemClick() {
