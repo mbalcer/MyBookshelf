@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -59,6 +60,7 @@ public class BookActivity extends AppCompatActivity {
         if (dbHelper.getUserBookByBookId(book.getId()).getBookId() != null) {
             bookInBookshelfBtn.setText(R.string.delete_book_from_bookshelf_button);
             bookInBookshelfBtn.setOnClickListener(bookInBookshelfBtnClickListener(true));
+            bookInBookshelfBtn.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.alizarin));
         } else {
             bookInBookshelfBtn.setOnClickListener(bookInBookshelfBtnClickListener(false));
         }
