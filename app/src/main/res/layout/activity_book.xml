@@ -69,6 +69,16 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
+
+                <Button
+                    android:id="@+id/book_in_bookshelf_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:text="@string/add_book_to_bookshelf_button" />
             </LinearLayout>
 
         </LinearLayout>
