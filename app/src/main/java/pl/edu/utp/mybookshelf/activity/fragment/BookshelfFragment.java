@@ -33,10 +33,26 @@ public class BookshelfFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(getContext());
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View inflate = inflater.inflate(R.layout.fragment_bookshelf, container, false);
+
+        bookshelfListView = inflate.findViewById(R.id.bookshelf_list);
+        bookshelfListView.setOnChildClickListener(bookshelfItemClick());
+
+        return inflate;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        myBooks.clear();
         myBooks.put(BookState.TO_READ, new ArrayList<>());
         myBooks.put(BookState.READ, new ArrayList<>());
-
         FirebaseBook.getAllBooks(books -> {
             dbHelper.getAllByBookState(BookState.TO_READ).forEach(local -> {
                 Optional<Book> optionalBook = books.stream()
@@ -49,21 +65,10 @@ public class BookshelfFragment extends Fragment {
                         .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
                 optionalBook.ifPresent(book -> myBooks.get(BookState.READ).add(book));
             });
-
-            BookshelfListAdapter adapter = new BookshelfListAdapter(getActivity(), myBooks);
-            bookshelfListView.setAdapter(adapter);
         });
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.fragment_bookshelf, container, false);
-
-        bookshelfListView = inflate.findViewById(R.id.bookshelf_list);
-        bookshelfListView.setOnChildClickListener(bookshelfItemClick());
-
-        return inflate;
+        BookshelfListAdapter adapter = new BookshelfListAdapter(getActivity(), myBooks);
+        bookshelfListView.setAdapter(adapter);
     }
 
     private ExpandableListView.OnChildClickListener bookshelfItemClick() {

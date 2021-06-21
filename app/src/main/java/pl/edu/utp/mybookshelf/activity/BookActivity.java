@@ -33,9 +33,9 @@ import pl.edu.utp.mybookshelf.model.Review;
 public class BookActivity extends AppCompatActivity {
 
     private ActionBar toolbar;
+    private DBHelper dbHelper;
 
     private Book book;
-    private DBHelper dbHelper;
     private List<String> titleTabs = new ArrayList<>();
     private List<Fragment> tabs = new ArrayList<>();
 
@@ -116,8 +116,10 @@ public class BookActivity extends AppCompatActivity {
         titleTabs.add("Info");
         tabs.add(new BookInfoFragment());
 
-        titleTabs.add("Moje dane");
-        tabs.add(new BookMyDataFragment());
+        if (dbHelper.getUserBookByBookId(book.getId()).getBookId() != null) {
+            titleTabs.add("Moje dane");
+            tabs.add(new BookMyDataFragment());
+        }
 
         titleTabs.add("Opinie");
         tabs.add(new BookReviewsFragment());
@@ -132,8 +134,15 @@ public class BookActivity extends AppCompatActivity {
                 } else {
                     dbHelper.setBookAsToRead(book.getId());
                 }
-                recreate();
+                reloadActivity();
             }
         };
+    }
+
+    private void reloadActivity() {
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 }
