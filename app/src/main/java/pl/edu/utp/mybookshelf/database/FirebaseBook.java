@@ -17,7 +17,7 @@ public class FirebaseBook {
 
     private static final CollectionReference bookCollection = FirebaseFirestore.getInstance().collection("books");
 
-    public static void getAllBooks(FirebaseCallback callback) {
+    public static void getAllBooks(FirebaseCallback<Book> callback) {
         List<Book> books = new ArrayList<>();
         bookCollection.get().addOnCompleteListener(task -> {
             for (DocumentSnapshot document : task.getResult()) {
@@ -59,7 +59,7 @@ public class FirebaseBook {
                 }
                 books.add(book);
             }
-            callback.getAllBooks(books);
+            callback.getAll(books);
         });
     }
 

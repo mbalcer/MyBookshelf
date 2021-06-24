@@ -26,6 +26,7 @@ import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.activity.ScannerActivity;
 import pl.edu.utp.mybookshelf.adapter.SearchResultListAdapter;
 import pl.edu.utp.mybookshelf.database.FirebaseBook;
+import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.model.Book;
 
 public class SearchFragment extends Fragment {
@@ -37,7 +38,12 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseBook.getAllBooks(books -> allBooks = books);
+        FirebaseBook.getAllBooks(new FirebaseCallback<Book>() {
+            @Override
+            public void getAll(List<Book> list) {
+                allBooks = list;
+            }
+        });
     }
 
     @Override

@@ -17,10 +17,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.database.FirebaseCallback;
+import pl.edu.utp.mybookshelf.database.FirebaseCategory;
+import pl.edu.utp.mybookshelf.model.Category;
 
 public class AddBookActivity extends AppCompatActivity {
     private MaterialDatePicker<Long> datePicker;
@@ -70,9 +74,16 @@ public class AddBookActivity extends AppCompatActivity {
 
     private void initSpinner() {
         Spinner categorySpinner = findViewById(R.id.add_book_category);
-        List<String> categories = Arrays.asList("Fantasy", "Horror", "Dramat"); // TODO: get categories from database
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        List<Category> categories = new ArrayList<>();
+        ArrayAdapter<Category> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        FirebaseCategory.getAll(new FirebaseCallback<Category>() {
+            @Override
+            public void getAll(List<Category> list) {
+                list.sort(Comparator.comparing(Category::getName));
+                categories.addAll(list);
+                dataAdapter.notifyDataSetChanged();
+            }
+        });
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(dataAdapter);
 

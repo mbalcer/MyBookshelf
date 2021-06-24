@@ -20,6 +20,7 @@ import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.adapter.BookshelfListAdapter;
 import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.database.FirebaseBook;
+import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
 
@@ -53,18 +54,21 @@ public class BookshelfFragment extends Fragment {
         myBooks.clear();
         myBooks.put(BookState.TO_READ, new ArrayList<>());
         myBooks.put(BookState.READ, new ArrayList<>());
-        FirebaseBook.getAllBooks(books -> {
-            dbHelper.getAllByBookState(BookState.TO_READ).forEach(local -> {
-                Optional<Book> optionalBook = books.stream()
-                        .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
-                optionalBook.ifPresent(book -> myBooks.get(BookState.TO_READ).add(book));
-            });
+        FirebaseBook.getAllBooks(new FirebaseCallback<Book>() {
+            @Override
+            public void getAll(List<Book> list) {
+                dbHelper.getAllByBookState(BookState.TO_READ).forEach(local -> {
+                    Optional<Book> optionalBook = list.stream()
+                            .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
+                    optionalBook.ifPresent(book -> myBooks.get(BookState.TO_READ).add(book));
+                });
 
-            dbHelper.getAllByBookState(BookState.READ).forEach(local -> {
-                Optional<Book> optionalBook = books.stream()
-                        .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
-                optionalBook.ifPresent(book -> myBooks.get(BookState.READ).add(book));
-            });
+                dbHelper.getAllByBookState(BookState.READ).forEach(local -> {
+                    Optional<Book> optionalBook = list.stream()
+                            .filter(remote -> remote.getId().equals(local.getBookId())).findFirst();
+                    optionalBook.ifPresent(book -> myBooks.get(BookState.READ).add(book));
+                });
+            }
         });
 
         BookshelfListAdapter adapter = new BookshelfListAdapter(getActivity(), myBooks);
