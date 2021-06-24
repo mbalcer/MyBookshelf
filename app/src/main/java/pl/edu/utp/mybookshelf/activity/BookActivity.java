@@ -29,6 +29,7 @@ import pl.edu.utp.mybookshelf.adapter.ViewPagerAdapter;
 import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.utils.ImageLoader;
 
 public class BookActivity extends AppCompatActivity {
 
@@ -66,8 +67,10 @@ public class BookActivity extends AppCompatActivity {
         }
         titleText.setText(book.getTitle());
         authorText.setText(book.getAuthor());
-        imageView.setImageResource(book.getImage());
         setRating();
+
+        ImageLoader imageLoader = new ImageLoader(imageView, this);
+        imageLoader.execute(book.getImage());
 
         ViewPager2 viewPager = findViewById(R.id.viewpager);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle(), tabs);

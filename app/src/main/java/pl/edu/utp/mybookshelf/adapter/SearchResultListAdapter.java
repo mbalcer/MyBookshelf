@@ -13,6 +13,7 @@ import java.util.List;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.utils.ImageLoader;
 
 public class SearchResultListAdapter implements ListAdapter {
 
@@ -25,10 +26,12 @@ public class SearchResultListAdapter implements ListAdapter {
     }
 
     @Override
-    public void registerDataSetObserver(DataSetObserver observer) { }
+    public void registerDataSetObserver(DataSetObserver observer) {
+    }
 
     @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) { }
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+    }
 
     @Override
     public int getCount() {
@@ -52,7 +55,7 @@ public class SearchResultListAdapter implements ListAdapter {
 
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.book_list_item, null,true);
+        View rowView = inflater.inflate(R.layout.book_list_item, null, true);
 
         TextView titleText = rowView.findViewById(R.id.book_title);
         TextView authorText = rowView.findViewById(R.id.book_author);
@@ -60,7 +63,9 @@ public class SearchResultListAdapter implements ListAdapter {
 
         titleText.setText(books.get(position).getTitle());
         authorText.setText(books.get(position).getAuthor());
-        imageView.setImageResource(books.get(position).getImage());
+
+        ImageLoader imageLoader = new ImageLoader(imageView, context);
+        imageLoader.execute(books.get(position).getImage());
 
         return rowView;
     }

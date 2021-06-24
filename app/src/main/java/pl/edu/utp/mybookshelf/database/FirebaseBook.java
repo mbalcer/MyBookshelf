@@ -27,9 +27,7 @@ public class FirebaseBook {
                 book.setTitle((String) document.get("title"));
                 book.setDescription((String) document.get("description"));
 
-                Integer image = document.get("image") == null ? null : ((Long) document.get("image")).intValue();
-                book.setImage(image);
-
+                book.setImage((String) document.get("image"));
                 book.setIsbn((String) document.get("isbn"));
 
                 Integer pages = document.get("pages") == null ? null : ((Long) document.get("pages")).intValue();

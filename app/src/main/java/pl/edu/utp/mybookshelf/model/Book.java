@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.edu.utp.mybookshelf.R;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +15,7 @@ public class Book implements Serializable {
     private String author;
     private String title;
     private String description;
-    private Integer image = R.drawable.unknown_book;
+    private String image;
     private String isbn;
     private Integer pages;
     private String publishDate;
@@ -29,7 +28,7 @@ public class Book implements Serializable {
         this.title = title;
     }
 
-    public Book(String author, String title, Integer image) {
+    public Book(String author, String title, String image) {
         this.author = author;
         this.title = title;
         this.image = image;

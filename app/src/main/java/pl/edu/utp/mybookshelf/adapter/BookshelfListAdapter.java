@@ -15,6 +15,7 @@ import java.util.Map;
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
+import pl.edu.utp.mybookshelf.utils.ImageLoader;
 
 public class BookshelfListAdapter extends BaseExpandableListAdapter {
 
@@ -85,7 +86,9 @@ public class BookshelfListAdapter extends BaseExpandableListAdapter {
 
         titleText.setText(books.get(listTitles.get(groupPosition)).get(childPosition).getTitle());
         authorText.setText(books.get(listTitles.get(groupPosition)).get(childPosition).getAuthor());
-        imageView.setImageResource(books.get(listTitles.get(groupPosition)).get(childPosition).getImage());
+
+        ImageLoader imageLoader = new ImageLoader(imageView, context);
+        imageLoader.execute(books.get(listTitles.get(groupPosition)).get(childPosition).getImage());
 
         return rowView;
     }

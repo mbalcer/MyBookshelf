@@ -28,8 +28,12 @@
     <string name="publish_date_hint">Data wydania</string>
     <string name="select_date">Wybierz datę</string>
     <string name="category_hint">Kategoria</string>
+    <string name="image_hint">Adres URL okładki</string>
     <string name="add_book_button">Dodaj książkę</string>
 
     <string name="scan_button">Przycisk do skanowania ISBN</string>
     <string name="date_picker_button">Przycisk wyboru daty</string>
+
+    <string name="unknown_book_url"><![CDATA[https://img.freepik.com/free–vector/bookshelf–form-question-mark-with-colorful-books_7188-137.jpg?size=338&ext=jpg]]></string>
+
 </resources>
