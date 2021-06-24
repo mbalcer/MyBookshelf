@@ -14,7 +14,6 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String BOOKS_TABLE_NAME = "books";
     public static final String BOOKS_COLUMN_BOOK_ID = "book_id";
     public static final String BOOKS_COLUMN_STATE = "state";
-    public static final String BOOKS_COLUMN_UPDATE_DATE = "update_date";
 
     private DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,8 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createQuery = "create table " + BOOKS_TABLE_NAME + " (" +
                 BOOKS_COLUMN_BOOK_ID + " integer primary key, " +
-                BOOKS_COLUMN_STATE + " text not null, " +
-                BOOKS_COLUMN_UPDATE_DATE + " text not null)";
+                BOOKS_COLUMN_STATE + " text not null)";
         db.execSQL(createQuery);
     }
 
