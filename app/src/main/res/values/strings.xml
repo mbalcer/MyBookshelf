@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyBookshelf</string>
+    <string name="app_name">Moja półka</string>
     <string name="bookshelf">Moja półka</string>
     <string name="search">Szukaj</string>
     <string name="settings">Ustawienia</string>
@@ -35,5 +35,13 @@
     <string name="date_picker_button">Przycisk wyboru daty</string>
 
     <string name="unknown_book_url"><![CDATA[https://img.freepik.com/free–vector/bookshelf–form-question-mark-with-colorful-books_7188-137.jpg?size=338&ext=jpg]]></string>
+
+    <string name="login">Zaloguj się</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Hasło</string>
+    <string name="signup_login_hint">Masz już konto? Zaloguj się</string>
+    <string name="login_signup_hint">Nie masz konta? Zarejestruj się</string>
+    <string name="welcome_back">Witaj ponownie!</string>
+    <string name="special_quotation">Kto czyta książki, żyje podwójnie</string>
 
 </resources>
