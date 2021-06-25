@@ -29,7 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createQuery = "create table " + BOOKS_TABLE_NAME + " (" +
-                BOOKS_COLUMN_BOOK_ID + " integer primary key, " +
+                BOOKS_COLUMN_BOOK_ID + " text primary key, " +
                 BOOKS_COLUMN_STATE + " text not null)";
         db.execSQL(createQuery);
     }

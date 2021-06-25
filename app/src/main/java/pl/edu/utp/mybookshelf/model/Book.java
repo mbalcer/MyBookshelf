@@ -1,5 +1,7 @@
 package pl.edu.utp.mybookshelf.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book implements Serializable {
-    private Long id;
+
+    private String id;
     private String author;
     private String title;
     private String description;
@@ -33,4 +36,13 @@ public class Book implements Serializable {
         this.title = title;
         this.image = image;
     }
+
+    /**
+     * Field excluded so as not to be saved in firebase.
+     */
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
 }

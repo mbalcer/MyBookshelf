@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initLocalDatabase() {
-        dbHelper.setBookAsToRead(1L);
-        dbHelper.setBookAsToRead(2L);
-        dbHelper.setBookAsToRead(3L);
-        dbHelper.setBookAsToRead(4L);
-        dbHelper.setBookAsToRead(5L);
-        dbHelper.setBookAsRead(1L);
-        dbHelper.setBookAsRead(2L);
-        dbHelper.setBookAsRead(3L);
+        dbHelper.setBookAsToRead("1");
+        dbHelper.setBookAsToRead("2");
+        dbHelper.setBookAsToRead("3");
+        dbHelper.setBookAsToRead("4");
+        dbHelper.setBookAsToRead("5");
+        dbHelper.setBookAsRead("1");
+        dbHelper.setBookAsRead("2");
+        dbHelper.setBookAsRead("3");
     }
 
 }

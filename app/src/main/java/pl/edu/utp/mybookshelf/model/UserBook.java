@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserBook {
 
-    private Long bookId;
+    private String bookId;
     private BookState state;
 
 }

@@ -27,7 +27,7 @@ public class DBHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
             UserBook userBook = new UserBook();
-            userBook.setBookId(cursor.getLong(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
+            userBook.setBookId(cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
 
             String stateText = cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_STATE));
             userBook.setState(BookState.valueOf(stateText));
@@ -45,7 +45,7 @@ public class DBHelper {
         Cursor cursor = db.rawQuery(selectQuery, new String[]{state.name()});
         while (cursor.moveToNext()) {
             UserBook userBook = new UserBook();
-            userBook.setBookId(cursor.getLong(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
+            userBook.setBookId(cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
 
             String stateText = cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_STATE));
             userBook.setState(BookState.valueOf(stateText));
@@ -56,13 +56,13 @@ public class DBHelper {
         return list;
     }
 
-    public UserBook getUserBookByBookId(Long bookId) {
+    public UserBook getUserBookByBookId(String bookId) {
         SQLiteDatabase db = dbHandler.getReadableDatabase();
         String selectQuery = "select * from " + BOOKS_TABLE_NAME + " where book_id = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{bookId.toString()});
         UserBook userBook = new UserBook();
         if (cursor.moveToNext()) {
-            userBook.setBookId(cursor.getLong(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
+            userBook.setBookId(cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_BOOK_ID)));
 
             String stateText = cursor.getString(cursor.getColumnIndex(BOOKS_COLUMN_STATE));
             userBook.setState(BookState.valueOf(stateText));
@@ -71,7 +71,7 @@ public class DBHelper {
         return userBook;
     }
 
-    public long setBookAsToRead(Long bookId) {
+    public long setBookAsToRead(String bookId) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BOOKS_COLUMN_BOOK_ID, bookId);
@@ -81,22 +81,22 @@ public class DBHelper {
         if (userBook.getBookId() == null)
             return db.insert(BOOKS_TABLE_NAME, null, contentValues);
         else
-            return db.update(BOOKS_TABLE_NAME, contentValues, BOOKS_COLUMN_BOOK_ID + " = ? ", new String[]{Long.toString(bookId)});
+            return db.update(BOOKS_TABLE_NAME, contentValues, BOOKS_COLUMN_BOOK_ID + " = ? ", new String[]{bookId});
     }
 
-    public boolean setBookAsRead(Long bookId) {
+    public boolean setBookAsRead(String bookId) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BOOKS_COLUMN_STATE, BookState.READ.name());
 
         return db.update(BOOKS_TABLE_NAME, contentValues, BOOKS_COLUMN_BOOK_ID + " = ? ",
-                new String[]{Long.toString(bookId)}) > 0;
+                new String[]{bookId}) > 0;
     }
 
-    public boolean deleteById(Long id) {
+    public boolean deleteById(String id) {
         SQLiteDatabase db = dbHandler.getWritableDatabase();
         return db.delete(BOOKS_TABLE_NAME, BOOKS_COLUMN_BOOK_ID + " = ? ",
-                new String[]{Long.toString(id)}) > 0;
+                new String[]{id}) > 0;
     }
 
     public boolean deleteAll() {
