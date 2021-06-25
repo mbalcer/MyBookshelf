@@ -28,6 +28,7 @@ import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.database.FirebaseCategory;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
 
 public class AddBookActivity extends AppCompatActivity {
@@ -43,6 +44,8 @@ public class AddBookActivity extends AppCompatActivity {
     private MaterialDatePicker<Long> datePicker;
     private Spinner categorySpinner;
 
+    private List<String> isbnList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,12 @@ public class AddBookActivity extends AppCompatActivity {
         descriptionEditText = findViewById(R.id.add_book_description);
         categorySpinner = findViewById(R.id.add_book_category);
 
+        FirebaseBook.getAllIsbn(new FirebaseCallback<String>() {
+            @Override
+            public void getAll(List<String> list) {
+                isbnList.addAll(list);
+            }
+        });
         TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
         isbnEditText = findViewById(R.id.add_book_isbn);
         isbnLayout.setEndIconOnClickListener(view -> openScanner());
@@ -122,31 +131,11 @@ public class AddBookActivity extends AppCompatActivity {
     }
 
     private void addBook() {
-        boolean invalidData = false;
-        Editable titleEditable = titleEditText.getText();
-        if (titleEditable == null || titleEditable.toString().trim().isEmpty()) {
-            TextInputLayout titleLayout = findViewById(R.id.add_book_title_layout);
-            titleLayout.setError("To pole jest wymagane");
-            invalidData = true;
-        }
-        Editable authorEditable = authorEditText.getText();
-        if (authorEditable == null || authorEditable.toString().trim().isEmpty()) {
-            TextInputLayout authorLayout = findViewById(R.id.add_book_author_layout);
-            authorLayout.setError("To pole jest wymagane");
-            invalidData = true;
-        }
-        // TODO: checking if isbn unique
-        Editable isbnEditable = isbnEditText.getText();
-        if (isbnEditable == null || isbnEditable.toString().trim().isEmpty()) {
-            TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
-            isbnLayout.setError("To pole jest wymagane");
-            invalidData = true;
-        }
-        if (!invalidData) {
+        if (checkData()) {
             Book book = new Book();
-            book.setTitle(titleEditable.toString());
-            book.setAuthor(authorEditable.toString());
-            book.setIsbn(isbnEditable.toString());
+            book.setTitle(titleEditText.getText().toString());
+            book.setAuthor(authorEditText.getText().toString());
+            book.setIsbn(isbnEditText.getText().toString());
 
             Editable pagesEditable = pagesEditText.getText();
             if (pagesEditable != null && !pagesEditable.toString().trim().isEmpty()) {
@@ -168,8 +157,47 @@ public class AddBookActivity extends AppCompatActivity {
 
             FirebaseBook.save(book);
             openBookActivity(book);
-            Log.d(AddBookActivity.class.getName(), "Saved new book: " + titleEditable.toString());
+            Log.d(AddBookActivity.class.getName(), "Saved new book: " + titleEditText.getText().toString());
         }
+    }
+
+    private boolean checkData() {
+        clearErrors();
+        boolean validData = true;
+
+        Editable titleEditable = titleEditText.getText();
+        if (titleEditable == null || titleEditable.toString().trim().isEmpty()) {
+            TextInputLayout titleLayout = findViewById(R.id.add_book_title_layout);
+            titleLayout.setError("To pole jest wymagane");
+            validData = false;
+        }
+        Editable authorEditable = authorEditText.getText();
+        if (authorEditable == null || authorEditable.toString().trim().isEmpty()) {
+            TextInputLayout authorLayout = findViewById(R.id.add_book_author_layout);
+            authorLayout.setError("To pole jest wymagane");
+            validData = false;
+        }
+        Editable isbnEditable = isbnEditText.getText();
+        if (isbnEditable == null || isbnEditable.toString().trim().isEmpty()
+                || isbnList.contains(isbnEditText.getText().toString())) {
+            TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
+            if (isbnList.contains(isbnEditText.getText().toString())) {
+                isbnLayout.setError("Wartość tego pola musi być unikalna");
+            } else {
+                isbnLayout.setError("To pole jest wymagane");
+            }
+            validData = false;
+        }
+        return validData;
+    }
+
+    private void clearErrors() {
+        TextInputLayout titleLayout = findViewById(R.id.add_book_title_layout);
+        TextInputLayout authorLayout = findViewById(R.id.add_book_author_layout);
+        TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
+        titleLayout.setError(null);
+        authorLayout.setError(null);
+        isbnLayout.setError(null);
     }
 
     private void openScanner() {
