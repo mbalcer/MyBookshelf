@@ -28,7 +28,6 @@ import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.database.FirebaseCategory;
 import pl.edu.utp.mybookshelf.model.Book;
-import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
 
 public class AddBookActivity extends AppCompatActivity {

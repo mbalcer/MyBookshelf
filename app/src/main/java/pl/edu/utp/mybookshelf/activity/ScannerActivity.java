@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.Optional;
+import java.util.List;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.database.FirebaseBook;
+import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.model.Book;
 
 public class ScannerActivity extends AppCompatActivity {
@@ -43,8 +45,7 @@ public class ScannerActivity extends AppCompatActivity {
                 if (parentClassIsAddBookActivity) {
                     backToAddBookActivity(isbn);
                 } else {
-                    Optional<Book> optionalBook = getBookByIsbn(isbn);
-                    backToSearchActivity(optionalBook);
+                    backToSearchActivity(isbn);
                 }
             }
         } else {
@@ -52,19 +53,20 @@ public class ScannerActivity extends AppCompatActivity {
         }
     }
 
-    private Optional<Book> getBookByIsbn(String isbn) {
-        return Optional.ofNullable(new Book("J.K. Rowling", "Harry Potter")); // TODO: getting book by isbn from database
-    }
-
-    private void backToSearchActivity(Optional<Book> book) {
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        if (book.isPresent()) {
-            intent.putExtra("resultScanner", true);
-            intent.putExtra("scannedBook", book.get());
-        } else {
-            intent.putExtra("resultScanner", false);
-        }
-        startActivity(intent);
+    private void backToSearchActivity(String isbn) {
+        FirebaseBook.findByIsbn(new FirebaseCallback<Book>() {
+            @Override
+            public void getAll(List<Book> list) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                if (!list.isEmpty()) {
+                    intent.putExtra("resultScanner", true);
+                    intent.putExtra("scannedBook", list.get(0));
+                } else {
+                    intent.putExtra("resultScanner", false);
+                }
+                startActivity(intent);
+            }
+        }, isbn);
     }
 
     private void backToAddBookActivity(String isbn) {
