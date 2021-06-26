@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
-    private Long id;
+    private String id;
     private String email;
-    private String password;
+    private String password; // TODO: delete password from model
     private String fullName;
 }

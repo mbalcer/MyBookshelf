@@ -97,10 +97,10 @@ public class FirebaseBook {
                 if (reviewObject.get("user") instanceof Map) {
                     HashMap<String, Object> userObject = (HashMap<String, Object>) reviewObject.get("user");
                     user = new User();
-                    user.setId((Long) userObject.get("id"));
-                    user.setEmail((String) userObject.get("email"));
-                    user.setPassword((String) userObject.get("password"));
-                    user.setFullName((String) userObject.get("fullName"));
+                    user.setId(String.valueOf(userObject.get("id")));
+                    user.setEmail(String.valueOf(userObject.get("email")));
+                    user.setPassword(String.valueOf(userObject.get("password")));
+                    user.setFullName(String.valueOf(userObject.get("fullName")));
                 }
                 review.setUser(user);
                 reviews.add(review);

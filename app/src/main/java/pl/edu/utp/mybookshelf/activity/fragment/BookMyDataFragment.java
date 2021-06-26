@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Collections;
 
@@ -34,11 +36,13 @@ public class BookMyDataFragment extends Fragment {
 
     private RatingBar reviewRatingBar;
     private TextInputEditText reviewInputText;
+    private FirebaseAuth auth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(getContext());
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -93,8 +97,8 @@ public class BookMyDataFragment extends Fragment {
             if (!reviewText.trim().isEmpty()) {
                 review.setText(reviewText);
             }
-            // TODO: setting user in review
-            User reviewUser = new User(1L, "szymonbetlewski@wp.pl", "123", "Szymon Betlewski");
+            FirebaseUser currentUser = auth.getCurrentUser();
+            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getEmail());
             review.setUser(reviewUser);
 
             if (book.getReviews() == null) {
@@ -109,8 +113,7 @@ public class BookMyDataFragment extends Fragment {
     }
 
     private boolean userReviewExists() {
-        // TODO: getting logged user
-        String loggedEmail = "szymonbetlewski@wp.pl";
+        String loggedEmail = auth.getCurrentUser().getEmail();
         if (book.getReviews() == null || book.getReviews().isEmpty()) {
             return false;
         } else {
