@@ -38,6 +38,10 @@
         android:indeterminate="true" />
 
     <include layout="@layout/layout_login"
-        android:id="@+id/loginRegisterLayout"
+        android:id="@+id/loginLayout"
+        android:visibility="gone" />
+
+    <include layout="@layout/layout_register"
+        android:id="@+id/registerLayout"
         android:visibility="gone" />
 </RelativeLayout>

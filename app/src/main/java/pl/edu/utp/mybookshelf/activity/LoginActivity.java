@@ -1,11 +1,9 @@
 package pl.edu.utp.mybookshelf.activity;
 
 import android.animation.Animator;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,7 +19,8 @@ import pl.edu.utp.mybookshelf.R;
 public class LoginActivity extends AppCompatActivity {
 
     private RelativeLayout rootView;
-    private RelativeLayout loginRegisterView;
+    private RelativeLayout loginLayout;
+    private RelativeLayout registerLayout;
     private ImageView bookIconImageView;
 
     @Override
@@ -35,26 +34,27 @@ public class LoginActivity extends AppCompatActivity {
         bookIconImageView = findViewById(R.id.bookIconImageView);
 
         initSwitchBetweenLoginAndRegister();
-        initCountDownTimer().start();
+        initLoadingApplicationScreen().start();
     }
 
     private void initSwitchBetweenLoginAndRegister() {
-        loginRegisterView = findViewById(R.id.loginRegisterLayout);
-        loginRegisterView.findViewById(R.id.loginSignUpButton).setOnClickListener(view -> {
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.layout_register, null);
-
-            loginRegisterView.removeAllViews();
-            loginRegisterView.addView(layout);
-
+        loginLayout = findViewById(R.id.loginLayout);
+        loginLayout.findViewById(R.id.loginSignUpButton).setOnClickListener(view -> {
             bookIconImageView.animate()
                     .x(Resources.getSystem().getDisplayMetrics().widthPixels - 278).y(100)
                     .setDuration(1000)
-                    .setListener(loginRegisterAnimationListener());
+                    .setListener(loginRegisterAnimationListener(true));
+        });
+        registerLayout = findViewById(R.id.registerLayout);
+        registerLayout.findViewById(R.id.signUpLoginButton).setOnClickListener(view -> {
+            bookIconImageView.animate()
+                    .x(50).y(100)
+                    .setDuration(1000)
+                    .setListener(loginRegisterAnimationListener(false));
         });
     }
 
-    private CountDownTimer initCountDownTimer() {
+    private CountDownTimer initLoadingApplicationScreen() {
         return new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) { }
@@ -71,21 +71,23 @@ public class LoginActivity extends AppCompatActivity {
                 bookIconImageView.animate()
                         .x(50).y(100)
                         .setDuration(1000)
-                        .setListener(loginRegisterAnimationListener());
+                        .setListener(loginRegisterAnimationListener(false));
             }
         };
     }
 
-    private Animator.AnimatorListener loginRegisterAnimationListener() {
+    private Animator.AnimatorListener loginRegisterAnimationListener(boolean openRegister) {
         return new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                loginRegisterView.setVisibility(View.GONE);
+                if (openRegister) loginLayout.setVisibility(View.GONE);
+                else registerLayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                loginRegisterView.setVisibility(View.VISIBLE);
+                if (openRegister) registerLayout.setVisibility(View.VISIBLE);
+                else loginLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
