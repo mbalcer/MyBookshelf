@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="pl.edu.utp.mybookshelf">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
@@ -21,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.MainActivity"
+            android:label="@string/bookshelf"/>
         <activity android:name=".activity.BookActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity android:name=".activity.AddBookActivity"
@@ -29,6 +32,7 @@
         <activity android:name=".activity.ScannerActivity"
             android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.CaptureActivityPortrait"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"

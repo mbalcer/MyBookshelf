@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="20dp"
     android:layout_marginStart="20dp"
     android:layout_marginTop="130dp"
@@ -37,6 +38,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true"
+            android:id="@+id/emailRegisterLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint">
@@ -53,15 +56,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true"
+            android:id="@+id/passwordRegisterLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:hint="@string/password_hint">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordRegisterEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:textColor="@color/asphalt"
                 android:textColorHint="@color/asphalt"
                 android:textSize="15sp" />
@@ -70,15 +75,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="true"
+            android:id="@+id/confirmPasswordRegisterLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:hint="@string/confirm_password_hint">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordRegisterEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:textColor="@color/asphalt"
                 android:textColorHint="@color/asphalt"
                 android:textSize="15sp" />

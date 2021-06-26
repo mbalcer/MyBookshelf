@@ -15,13 +15,13 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.service.RegisterService;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RelativeLayout rootView;
-    private RelativeLayout loginLayout;
-    private RelativeLayout registerLayout;
+    private RelativeLayout rootView, loginLayout, registerLayout;
     private ImageView bookIconImageView;
+    private RegisterService registerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         rootView = findViewById(R.id.loginRootView);
         bookIconImageView = findViewById(R.id.bookIconImageView);
-
         initSwitchBetweenLoginAndRegister();
+        registerService = new RegisterService(this, registerLayout);
+
         initLoadingApplicationScreen().start();
     }
 
