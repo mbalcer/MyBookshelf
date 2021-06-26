@@ -13,6 +13,7 @@ import java.util.Map;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Category;
 import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.model.User;
 
 public class FirebaseBook {
 
@@ -68,12 +69,20 @@ public class FirebaseBook {
             List<HashMap<String, Object>> reviewObjects = (List<HashMap<String, Object>>) document.get("reviews");
             for (HashMap<String, Object> reviewObject : reviewObjects) {
                 Review review = new Review();
-                review.setId((Long) reviewObject.get("id"));
                 review.setText((String) reviewObject.get("text"));
-                Integer rating = reviewObject.get("rating") == null ? null : ((Long) reviewObject.get("rating")).intValue();
-                review.setRating(rating);
-//                        TODO: user setting
-//                        review.setUser();
+                Double rating = reviewObject.get("rating") == null ? null : ((Double) reviewObject.get("rating"));
+                review.setRating(rating.floatValue());
+
+                User user = null;
+                if (reviewObject.get("user") instanceof Map) {
+                    HashMap<String, Object> userObject = (HashMap<String, Object>) reviewObject.get("user");
+                    user = new User();
+                    user.setId((Long) userObject.get("id"));
+                    user.setEmail((String) userObject.get("email"));
+                    user.setPassword((String) userObject.get("password"));
+                    user.setFullName((String) userObject.get("fullName"));
+                }
+                review.setUser(user);
                 reviews.add(review);
             }
             book.setReviews(reviews);
@@ -94,6 +103,10 @@ public class FirebaseBook {
         DocumentReference bookRef = bookCollection.document();
         bookRef.set(book);
         book.setId(bookRef.getId());
+    }
+
+    public static void update(Book book) {
+        bookCollection.document(book.getId()).set(book);
     }
 
 }
