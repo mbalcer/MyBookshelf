@@ -37,11 +37,13 @@
     <string name="unknown_book_url"><![CDATA[https://img.freepik.com/free–vector/bookshelf–form-question-mark-with-colorful-books_7188-137.jpg?size=338&ext=jpg]]></string>
 
     <string name="login">Zaloguj się</string>
-    <string name="login_email_hint">Email</string>
-    <string name="login_password_hint">Hasło</string>
-    <string name="signup_login_hint">Masz już konto? Zaloguj się</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Hasło</string>
+    <string name="confirm_password_hint">Powtórz hasło</string>
     <string name="login_signup_hint">Nie masz konta? Zarejestruj się</string>
+    <string name="signup_login_hint">Masz już konto? Zaloguj się</string>
     <string name="welcome_back">Witaj ponownie!</string>
+    <string name="registration">Rejestracja</string>
     <string name="special_quotation">Kto czyta książki, żyje podwójnie</string>
-
 </resources>
