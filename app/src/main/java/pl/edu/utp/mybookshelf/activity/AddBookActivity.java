@@ -28,7 +28,6 @@ import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.database.FirebaseCallback;
 import pl.edu.utp.mybookshelf.database.FirebaseCategory;
 import pl.edu.utp.mybookshelf.model.Book;
-import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Category;
 
 public class AddBookActivity extends AppCompatActivity {
@@ -82,6 +81,9 @@ public class AddBookActivity extends AppCompatActivity {
         publishDateEditText.setOnClickListener(view -> datePicker.show(getSupportFragmentManager(), AddBookActivity.class.getName()));
 
         initSpinner();
+
+        Button addBookButton = findViewById(R.id.add_book_button);
+        addBookButton.setOnClickListener(view -> addBook());
     }
 
     private void initDatePicker(TextInputEditText publishDateEditText) {
@@ -126,8 +128,6 @@ public class AddBookActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Button addBookButton = findViewById(R.id.add_book_button);
-        addBookButton.setOnClickListener(view -> addBook());
     }
 
     private void addBook() {

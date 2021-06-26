@@ -75,6 +75,13 @@ public class BookActivity extends AppCompatActivity {
         ViewPager2 viewPager = findViewById(R.id.viewpager);
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), getLifecycle(), tabs);
         viewPager.setAdapter(pagerAdapter);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("tab") != null) {
+            int tabToOpen = (int) getIntent().getExtras().getSerializable("tab");
+            if (titleTabs.size() > tabToOpen) {
+                viewPager.setCurrentItem(tabToOpen);
+            }
+        }
         TabLayout tabLayout = findViewById(R.id.book_details_menu);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titleTabs.get(position))).attach();
@@ -106,7 +113,7 @@ public class BookActivity extends AppCompatActivity {
         if (Optional.ofNullable(book.getReviews()).isPresent() && book.getReviews().size() > 0) {
             Double avgRating = book.getReviews()
                     .stream()
-                    .mapToInt(Review::getRating)
+                    .mapToDouble(Review::getRating)
                     .average()
                     .orElse(Double.NaN);
 

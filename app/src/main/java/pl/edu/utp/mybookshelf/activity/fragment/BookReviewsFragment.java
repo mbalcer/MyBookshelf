@@ -35,7 +35,7 @@ public class BookReviewsFragment extends Fragment {
             book = (Book) getActivity().getIntent().getExtras().getSerializable("book");
         }
 
-        if (book.getReviews() != null) {
+        if (book.getReviews() != null && !book.getReviews().isEmpty()) {
             listView = inflate.findViewById(R.id.reviews_list_view);
             ReviewListAdapter adapter = new ReviewListAdapter(getActivity(), book.getReviews());
             listView.setAdapter(adapter);

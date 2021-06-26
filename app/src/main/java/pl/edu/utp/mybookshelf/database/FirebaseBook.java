@@ -13,6 +13,7 @@ import java.util.Map;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Category;
 import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.model.User;
 
 public class FirebaseBook {
 
@@ -23,41 +24,19 @@ public class FirebaseBook {
         bookCollection.get().addOnCompleteListener(task -> {
             for (DocumentSnapshot document : task.getResult()) {
                 Book book = new Book();
-                book.setId(document.getId());
-                book.setAuthor((String) document.get("author"));
-                book.setTitle((String) document.get("title"));
-                book.setDescription((String) document.get("description"));
+                getBookDataFromDocument(book, document);
+                books.add(book);
+            }
+            callback.getAll(books);
+        });
+    }
 
-                book.setImage((String) document.get("image"));
-                book.setIsbn((String) document.get("isbn"));
-
-                Integer pages = document.get("pages") == null ? null : ((Long) document.get("pages")).intValue();
-                book.setPages(pages);
-
-                book.setPublishDate((String) document.get("publishDate"));
-
-                Category category = null;
-                if (document.get("category") instanceof Map) {
-                    HashMap<String, Object> categoryObject = (HashMap<String, Object>) document.get("category");
-                    category = new Category((Long) categoryObject.get("id"), (String) categoryObject.get("name"));
-                }
-                book.setCategory(category);
-
-                List<Review> reviews = new ArrayList<>();
-                if (document.get("reviews") instanceof List) {
-                    List<HashMap<String, Object>> reviewObjects = (List<HashMap<String, Object>>) document.get("reviews");
-                    for (HashMap<String, Object> reviewObject : reviewObjects) {
-                        Review review = new Review();
-                        review.setId((Long) reviewObject.get("id"));
-                        review.setText((String) reviewObject.get("text"));
-                        Integer rating = reviewObject.get("rating") == null ? null : ((Long) reviewObject.get("rating")).intValue();
-                        review.setRating(rating);
-//                        TODO: user setting
-//                        review.setUser();
-                        reviews.add(review);
-                    }
-                    book.setReviews(reviews);
-                }
+    public static void findByIsbn(FirebaseCallback<Book> callback, String isbn) {
+        List<Book> books = new ArrayList<>();
+        bookCollection.whereEqualTo("isbn", isbn).get().addOnCompleteListener(task -> {
+            for (DocumentSnapshot document : task.getResult()) {
+                Book book = new Book();
+                getBookDataFromDocument(book, document);
                 books.add(book);
             }
             callback.getAll(books);
@@ -78,6 +57,56 @@ public class FirebaseBook {
         DocumentReference bookRef = bookCollection.document();
         bookRef.set(book);
         book.setId(bookRef.getId());
+    }
+
+    public static void update(Book book) {
+        bookCollection.document(book.getId()).set(book);
+    }
+
+    private static void getBookDataFromDocument(Book book, DocumentSnapshot document) {
+        book.setId(document.getId());
+        book.setAuthor((String) document.get("author"));
+        book.setTitle((String) document.get("title"));
+        book.setDescription((String) document.get("description"));
+
+        book.setImage((String) document.get("image"));
+        book.setIsbn((String) document.get("isbn"));
+
+        Integer pages = document.get("pages") == null ? null : ((Long) document.get("pages")).intValue();
+        book.setPages(pages);
+
+        book.setPublishDate((String) document.get("publishDate"));
+
+        Category category = null;
+        if (document.get("category") instanceof Map) {
+            HashMap<String, Object> categoryObject = (HashMap<String, Object>) document.get("category");
+            category = new Category((Long) categoryObject.get("id"), (String) categoryObject.get("name"));
+        }
+        book.setCategory(category);
+
+        List<Review> reviews = new ArrayList<>();
+        if (document.get("reviews") instanceof List) {
+            List<HashMap<String, Object>> reviewObjects = (List<HashMap<String, Object>>) document.get("reviews");
+            for (HashMap<String, Object> reviewObject : reviewObjects) {
+                Review review = new Review();
+                review.setText((String) reviewObject.get("text"));
+                Double rating = reviewObject.get("rating") == null ? null : ((Double) reviewObject.get("rating"));
+                review.setRating(rating.floatValue());
+
+                User user = null;
+                if (reviewObject.get("user") instanceof Map) {
+                    HashMap<String, Object> userObject = (HashMap<String, Object>) reviewObject.get("user");
+                    user = new User();
+                    user.setId((Long) userObject.get("id"));
+                    user.setEmail((String) userObject.get("email"));
+                    user.setPassword((String) userObject.get("password"));
+                    user.setFullName((String) userObject.get("fullName"));
+                }
+                review.setUser(user);
+                reviews.add(review);
+            }
+            book.setReviews(reviews);
+        }
     }
 
 }
