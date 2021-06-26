@@ -84,6 +84,8 @@ public class BookMyDataFragment extends Fragment {
     private void addReview() {
         if (reviewRatingBar.getRating() == 0) {
             Toast.makeText(getContext(), "Wybierz ocenę, aby dodać recenzję", Toast.LENGTH_SHORT).show();
+        } else if (userReviewExists()) {
+            Toast.makeText(getContext(), "Twoja recenzja tej książki już istnieje", Toast.LENGTH_SHORT).show();
         } else {
             Review review = new Review();
             review.setRating(reviewRatingBar.getRating());
@@ -103,6 +105,18 @@ public class BookMyDataFragment extends Fragment {
             FirebaseBook.update(book);
             Log.d(BookMyDataFragment.class.getName(), "Saved new review for book: " + book.getId());
             openBookReviewsFragment();
+        }
+    }
+
+    private boolean userReviewExists() {
+        // TODO: getting logged user
+        String loggedEmail = "szymonbetlewski@wp.pl";
+        if (book.getReviews() == null || book.getReviews().isEmpty()) {
+            return false;
+        } else {
+            return book.getReviews().stream()
+                    .anyMatch(review -> review.getUser() != null
+                            && review.getUser().getEmail().equals(loggedEmail));
         }
     }
 

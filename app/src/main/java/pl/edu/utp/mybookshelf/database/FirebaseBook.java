@@ -43,6 +43,26 @@ public class FirebaseBook {
         });
     }
 
+    public static void getAllIsbn(FirebaseCallback<String> callback) {
+        List<String> isbnList = new ArrayList<>();
+        bookCollection.get().addOnCompleteListener(task -> {
+            for (DocumentSnapshot document : task.getResult()) {
+                isbnList.add((String) document.get("isbn"));
+            }
+            callback.getAll(isbnList);
+        });
+    }
+
+    public static void save(Book book) {
+        DocumentReference bookRef = bookCollection.document();
+        bookRef.set(book);
+        book.setId(bookRef.getId());
+    }
+
+    public static void update(Book book) {
+        bookCollection.document(book.getId()).set(book);
+    }
+
     private static void getBookDataFromDocument(Book book, DocumentSnapshot document) {
         book.setId(document.getId());
         book.setAuthor((String) document.get("author"));
@@ -87,26 +107,6 @@ public class FirebaseBook {
             }
             book.setReviews(reviews);
         }
-    }
-
-    public static void getAllIsbn(FirebaseCallback<String> callback) {
-        List<String> isbnList = new ArrayList<>();
-        bookCollection.get().addOnCompleteListener(task -> {
-            for (DocumentSnapshot document : task.getResult()) {
-                isbnList.add((String) document.get("isbn"));
-            }
-            callback.getAll(isbnList);
-        });
-    }
-
-    public static void save(Book book) {
-        DocumentReference bookRef = bookCollection.document();
-        bookRef.set(book);
-        book.setId(bookRef.getId());
-    }
-
-    public static void update(Book book) {
-        bookCollection.document(book.getId()).set(book);
     }
 
 }
