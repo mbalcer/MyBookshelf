@@ -1,25 +1,39 @@
 package pl.edu.utp.mybookshelf.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Collections;
 
 import pl.edu.utp.mybookshelf.R;
+import pl.edu.utp.mybookshelf.activity.BookActivity;
 import pl.edu.utp.mybookshelf.database.DBHelper;
+import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
+import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.model.User;
 import pl.edu.utp.mybookshelf.model.UserBook;
 
 public class BookMyDataFragment extends Fragment {
     private DBHelper dbHelper;
     private Book book;
+
+    private RatingBar reviewRatingBar;
+    private TextInputEditText reviewInputText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,13 @@ public class BookMyDataFragment extends Fragment {
         else
             switchIsRead.setChecked(false);
         switchIsRead.setOnCheckedChangeListener(checkedIsBook());
+
+        reviewRatingBar = inflate.findViewById(R.id.your_review_rating);
+        reviewInputText = inflate.findViewById(R.id.your_review_text);
+
+        Button addReviewButton = inflate.findViewById(R.id.add_review_to_book);
+        addReviewButton.setOnClickListener(view -> addReview());
+
         return inflate;
     }
 
@@ -59,4 +80,37 @@ public class BookMyDataFragment extends Fragment {
             }
         };
     }
+
+    private void addReview() {
+        if (reviewRatingBar.getRating() == 0) {
+            Toast.makeText(getContext(), "Wybierz ocenę, aby dodać recenzję", Toast.LENGTH_SHORT).show();
+        } else {
+            Review review = new Review();
+            review.setRating(reviewRatingBar.getRating());
+            String reviewText = reviewInputText.getText().toString();
+            if (!reviewText.trim().isEmpty()) {
+                review.setText(reviewText);
+            }
+            // TODO: setting user in review
+            User reviewUser = new User(1L, "szymonbetlewski@wp.pl", "123", "Szymon Betlewski");
+            review.setUser(reviewUser);
+
+            if (book.getReviews() == null) {
+                book.setReviews(Collections.singletonList(review));
+            } else {
+                book.getReviews().add(review);
+            }
+            FirebaseBook.update(book);
+            Log.d(BookMyDataFragment.class.getName(), "Saved new review for book: " + book.getId());
+            openBookReviewsFragment();
+        }
+    }
+
+    private void openBookReviewsFragment() {
+        Intent intent = new Intent(getContext(), BookActivity.class);
+        intent.putExtra("book", book);
+        intent.putExtra("tab", 2);
+        startActivity(intent);
+    }
+
 }
