@@ -108,7 +108,6 @@ public class FirebaseBook {
                 Quote quote = new Quote();
                 quote.setText((String) quoteObject.get("text"));
                 quote.setPage((String) quoteObject.get("page"));
-                quote.setPublishTime((String) quoteObject.get("publishTime"));
                 User user = getUserDataFromMap(quoteObject);
                 quote.setUser(user);
                 quotes.add(quote);
