@@ -24,6 +24,7 @@ import java.util.Optional;
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.fragment.BookInfoFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.BookMyDataFragment;
+import pl.edu.utp.mybookshelf.activity.fragment.BookQuotesFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.BookReviewsFragment;
 import pl.edu.utp.mybookshelf.adapter.ViewPagerAdapter;
 import pl.edu.utp.mybookshelf.database.DBHelper;
@@ -133,6 +134,9 @@ public class BookActivity extends AppCompatActivity {
 
         titleTabs.add("Opinie");
         tabs.add(new BookReviewsFragment());
+
+        titleTabs.add("Cytaty");
+        tabs.add(new BookQuotesFragment());
     }
 
     private View.OnClickListener bookInBookshelfBtnClickListener(boolean delete) {
