@@ -19,7 +19,7 @@ import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.service.LoginService;
 import pl.edu.utp.mybookshelf.service.RegisterService;
 
-public class LoginActivity extends AppCompatActivity {
+public class AuthActivity extends AppCompatActivity {
 
     private RelativeLayout rootView, loginLayout, registerLayout;
     private ImageView bookIconImageView;
@@ -29,15 +29,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_auth);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+        Integer loadingTime = 2000;
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("loadingTime") != null) {
+            loadingTime = getIntent().getExtras().getInt("loadingTime");
+        }
+
         rootView = findViewById(R.id.loginRootView);
         bookIconImageView = findViewById(R.id.bookIconImageView);
 
         initSwitchBetweenLoginAndRegister();
-        initLoadingApplicationScreen().start();
+        initLoadingApplicationScreen(loadingTime).start();
 
         registerService = new RegisterService(this, registerLayout);
         loginService = new LoginService(this, loginLayout);
@@ -60,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private CountDownTimer initLoadingApplicationScreen() {
-        return new CountDownTimer(2000, 1000) {
+    private CountDownTimer initLoadingApplicationScreen(Integer loadingTime) {
+        return new CountDownTimer(loadingTime, 1000) {
             @Override
             public void onTick(long l) { }
 

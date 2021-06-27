@@ -13,17 +13,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.regex.Pattern;
 
 import pl.edu.utp.mybookshelf.R;
-import pl.edu.utp.mybookshelf.activity.LoginActivity;
+import pl.edu.utp.mybookshelf.activity.AuthActivity;
 
 public class RegisterService {
     private FirebaseAuth auth;
-    private LoginActivity context;
+    private AuthActivity context;
     private RelativeLayout registerLayout;
 
     private TextInputEditText emailRegisterEditText, passwordRegisterEditText, confirmPasswordRegisterEditText;
     private TextInputLayout emailRegisterLayout, passwordRegisterLayout, confirmPasswordRegisterLayout;
 
-    public RegisterService(LoginActivity context, RelativeLayout registerLayout) {
+    public RegisterService(AuthActivity context, RelativeLayout registerLayout) {
         this.context = context;
         this.registerLayout = registerLayout;
         this.auth = FirebaseAuth.getInstance();

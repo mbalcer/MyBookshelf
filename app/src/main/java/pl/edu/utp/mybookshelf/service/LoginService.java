@@ -9,17 +9,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import pl.edu.utp.mybookshelf.R;
-import pl.edu.utp.mybookshelf.activity.LoginActivity;
+import pl.edu.utp.mybookshelf.activity.AuthActivity;
 
 public class LoginService {
     private FirebaseAuth auth;
-    private LoginActivity context;
+    private AuthActivity context;
     private RelativeLayout loginLayout;
 
     private TextInputEditText emailLoginEditText, passwordLoginEditText;
     private TextInputLayout emailLoginLayout, passwordLoginLayout;
 
-    public LoginService(LoginActivity context, RelativeLayout loginLayout) {
+    public LoginService(AuthActivity context, RelativeLayout loginLayout) {
         this.context = context;
         this.loginLayout = loginLayout;
         this.auth = FirebaseAuth.getInstance();
