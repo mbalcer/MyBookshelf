@@ -40,6 +40,10 @@
         <activity android:name=".activity.ChangeEmailActivity"
             android:parentActivityName=".activity.MainActivity"
             android:label="@string/change_email_title"/>
+        <activity android:name=".activity.ChangeFullNameActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:label="@string/change_full_name_title"/>
+
 
     </application>
 

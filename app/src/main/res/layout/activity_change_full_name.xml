@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="25dp"
-    tools:context=".activity.ChangeEmailActivity">
+    tools:context=".activity.ChangeFullNameActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/change_email_text_layout"
+        android:id="@+id/change_full_name_text_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:hint="@string/email_hint"
+        android:hint="@string/full_name_hint"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/change_email_text"
+            android:id="@+id/change_full_name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/asphalt"
@@ -27,10 +27,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/change_email_button"
+        android:id="@+id/change_full_name_button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/change_email_text_layout"
+        android:layout_below="@id/change_full_name_text_layout"
         android:backgroundTint="@color/asphalt"
         android:text="@string/change"
         android:textAllCaps="false"

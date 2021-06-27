@@ -42,6 +42,7 @@
     <string name="register">Zarejestruj się</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Hasło</string>
+    <string name="full_name_hint">Imię i nazwisko</string>
     <string name="confirm_password_hint">Powtórz hasło</string>
     <string name="login_signup_hint">Nie masz konta? Zarejestruj się</string>
     <string name="signup_login_hint">Masz już konto? Zaloguj się</string>
@@ -57,6 +58,10 @@
     <string name="login_email_error">Wprowadź email</string>
     <string name="login_password_error">Wprowadź hasło</string>
 
+    <string name="full_name_error">Wprowadź imię i nazwisko</string>
+
+    <string name="change">Zmień</string>
     <string name="change_email_title">Zmiana adresu email</string>
-    <string name="change_email">Zmień email</string>
+    <string name="change_full_name_title">Zmiana imienia i nazwiska</string>
+
 </resources>

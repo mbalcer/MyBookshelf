@@ -98,7 +98,7 @@ public class BookMyDataFragment extends Fragment {
                 review.setText(reviewText);
             }
             FirebaseUser currentUser = auth.getCurrentUser();
-            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getEmail());
+            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getDisplayName());
             review.setUser(reviewUser);
 
             if (book.getReviews() == null) {
