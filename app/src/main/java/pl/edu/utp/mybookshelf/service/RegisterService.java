@@ -55,8 +55,8 @@ public class RegisterService {
                         Toast.makeText(context, "Błąd podczas rejestracji: " + task.getException(), Toast.LENGTH_SHORT).show();
                         Log.d(RegisterService.class.getName(), String.valueOf(task.getException()));
                     } else {
-                        Toast.makeText(context, "Rejestracja przebiegła pomyślnie. Teraz możesz się zalogować", Toast.LENGTH_SHORT).show();
-                        clearEditText();
+                        context.openMainActivity();
+                        Toast.makeText(context, "Rejestracja przebiegła pomyślnie.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -83,12 +83,6 @@ public class RegisterService {
         }
 
         return validate;
-    }
-
-    private void clearEditText() {
-        emailRegisterEditText.setText("");
-        passwordRegisterEditText.setText("");
-        confirmPasswordRegisterEditText.setText("");
     }
 
     private void clearErrorMessage() {

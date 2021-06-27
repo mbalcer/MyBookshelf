@@ -56,4 +56,7 @@
 
     <string name="login_email_error">Wprowadź email</string>
     <string name="login_password_error">Wprowadź hasło</string>
+
+    <string name="change_email_title">Zmiana adresu email</string>
+    <string name="change_email">Zmień email</string>
 </resources>

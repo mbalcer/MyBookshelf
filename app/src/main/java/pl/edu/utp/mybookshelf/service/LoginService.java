@@ -1,6 +1,7 @@
 package pl.edu.utp.mybookshelf.service;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -64,7 +65,8 @@ public class LoginService {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(context, task -> {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(context, "Logowanie się nie powiodło: " + task.getException(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Błędny email lub hasło", Toast.LENGTH_LONG).show();
+                        Log.d(LoginService.class.getName(), String.valueOf(task.getException()));
                     } else {
                         context.openMainActivity();
                     }
