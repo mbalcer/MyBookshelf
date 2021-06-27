@@ -97,6 +97,8 @@ public class AddBookActivity extends AppCompatActivity {
                     .parseCaseInsensitive().parseLenient()
                     .appendPattern("[MMM dd, yyyy]")
                     .appendPattern("[MMM d, yyyy]")
+                    .appendPattern("[d MMM yyyy]")
+                    .appendPattern("[dd MMM yyyy]")
                     .toFormatter();
             DateTimeFormatter editTextFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(datePicker.getHeaderText(), datePickerFormatter);
@@ -168,13 +170,13 @@ public class AddBookActivity extends AppCompatActivity {
         Editable titleEditable = titleEditText.getText();
         if (titleEditable == null || titleEditable.toString().trim().isEmpty()) {
             TextInputLayout titleLayout = findViewById(R.id.add_book_title_layout);
-            titleLayout.setError("To pole jest wymagane");
+            titleLayout.setError(getString(R.string.required_field_error));
             validData = false;
         }
         Editable authorEditable = authorEditText.getText();
         if (authorEditable == null || authorEditable.toString().trim().isEmpty()) {
             TextInputLayout authorLayout = findViewById(R.id.add_book_author_layout);
-            authorLayout.setError("To pole jest wymagane");
+            authorLayout.setError(getString(R.string.required_field_error));
             validData = false;
         }
         Editable isbnEditable = isbnEditText.getText();
@@ -182,9 +184,9 @@ public class AddBookActivity extends AppCompatActivity {
                 || isbnList.contains(isbnEditText.getText().toString())) {
             TextInputLayout isbnLayout = findViewById(R.id.add_book_isbn_layout);
             if (isbnList.contains(isbnEditText.getText().toString())) {
-                isbnLayout.setError("Wartość tego pola musi być unikalna");
+                isbnLayout.setError(getString(R.string.unique_field_error));
             } else {
-                isbnLayout.setError("To pole jest wymagane");
+                isbnLayout.setError(getString(R.string.required_field_error));
             }
             validData = false;
         }

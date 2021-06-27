@@ -60,6 +60,8 @@
     <string name="strong_password_error">Hasło musi się składać z conajmniej 8 znaków, 1 cyfry, 1 litery i 1 znaku specjalnego</string>
     <string name="confirm_password_error">Hasła muszą być takie same</string>
     <string name="incorrect_password_error">Podałeś złe hasło</string>
+    <string name="required_field_error">To pole jest wymagane</string>
+    <string name="unique_field_error">Wartość tego pola musi być unikalna</string>
 
     <string name="change">Zmień</string>
     <string name="change_email_title">Zmiana adresu email</string>
