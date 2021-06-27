@@ -18,6 +18,10 @@
     <string name="your_review_text">Twoja opinia</string>
     <string name="enter_review">Wpisz recenzję</string>
     <string name="add_review_text">Dodaj recenzję</string>
+    <string name="your_quote_text">Twój cytat</string>
+    <string name="enter_quote_text">Wpisz cytat</string>
+    <string name="enter_quote_page">Podaj stronę</string>
+    <string name="add_quote_text">Dodaj cytat</string>
     <string name="add_book_to_bookshelf_button">Postaw książkę na półce</string>
     <string name="delete_book_from_bookshelf_button">Zdejmij książkę z półki</string>
 
