@@ -65,20 +65,20 @@ public class RegisterService {
         boolean validate = true;
 
         if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailRegisterLayout.setError(context.getString(R.string.register_email_error));
+            emailRegisterLayout.setError(context.getString(R.string.incorrect_email_error));
             validate = false;
         }
         Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$");
         if (TextUtils.isEmpty(password) || !PASSWORD_PATTERN.matcher(password).matches()) {
-            passwordRegisterLayout.setError(context.getString(R.string.register_password_error));
+            passwordRegisterLayout.setError(context.getString(R.string.strong_password_error));
             validate = false;
         }
         if (TextUtils.isEmpty(confirmPassword)) {
-            confirmPasswordRegisterLayout.setError(context.getString(R.string.register_enter_confirm_password_error));
+            confirmPasswordRegisterLayout.setError(context.getString(R.string.empty_confirm_password_error));
             validate = false;
         }
         if (!password.equals(confirmPassword)) {
-            confirmPasswordRegisterLayout.setError(context.getString(R.string.register_confirm_password_error));
+            confirmPasswordRegisterLayout.setError(context.getString(R.string.confirm_password_error));
             validate = false;
         }
 

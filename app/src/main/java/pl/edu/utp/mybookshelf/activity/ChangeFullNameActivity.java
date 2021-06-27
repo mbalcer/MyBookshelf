@@ -62,7 +62,7 @@ public class ChangeFullNameActivity extends AppCompatActivity {
 
     private boolean validate(String fullName) {
         if (TextUtils.isEmpty(fullName)) {
-            fullNameLayout.setError(getString(R.string.full_name_error));
+            fullNameLayout.setError(getString(R.string.empty_full_name_error));
             return false;
         }
 

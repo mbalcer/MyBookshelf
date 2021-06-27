@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -19,6 +21,7 @@ import pl.edu.utp.mybookshelf.R;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
+    private FirebaseUser user;
 
     private TextInputEditText oldPasswordText, newPasswordText, confirmNewPasswordText;
     private TextInputLayout oldPasswordLayout, newPasswordLayout, confirmNewPasswordLayout;
@@ -29,6 +32,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
 
         auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         oldPasswordText = findViewById(R.id.old_password);
         newPasswordText = findViewById(R.id.new_password);
@@ -44,14 +48,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
             String confirmNewPassword = confirmNewPasswordText.getText().toString().trim();
 
             if (validate(oldPassword, newPassword, confirmNewPassword)) {
-                changePassword(newPassword);
+                AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPassword);
+                user.reauthenticate(credential).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        changePassword(newPassword);
+                    } else {
+                        oldPasswordLayout.setError(getString(R.string.incorrect_password_error));
+                    }
+                });
             }
         });
-
     }
 
     private void changePassword(String newPassword) {
-        FirebaseUser user = auth.getCurrentUser();
         user.updatePassword(newPassword)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -68,20 +77,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
         boolean validate = true;
 
         if (TextUtils.isDigitsOnly(oldPassword)) {
-            oldPasswordLayout.setError(getString(R.string.login_password_error));
+            oldPasswordLayout.setError(getString(R.string.empty_password_error));
             validate = false;
         }
         Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$");
         if (TextUtils.isEmpty(newPassword) || !PASSWORD_PATTERN.matcher(newPassword).matches()) {
-            newPasswordLayout.setError(getString(R.string.register_password_error));
+            newPasswordLayout.setError(getString(R.string.strong_password_error));
             validate = false;
         }
         if (TextUtils.isEmpty(confirmNewPassword)) {
-            confirmNewPasswordLayout.setError(getString(R.string.register_enter_confirm_password_error));
+            confirmNewPasswordLayout.setError(getString(R.string.empty_confirm_password_error));
             validate = false;
         }
-        if (!newPassword.equals(confirmNewPassword)) {
-            confirmNewPasswordLayout.setError(getString(R.string.register_confirm_password_error));
+        else if (!newPassword.equals(confirmNewPassword)) {
+            confirmNewPasswordLayout.setError(getString(R.string.confirm_password_error));
             validate = false;
         }
 

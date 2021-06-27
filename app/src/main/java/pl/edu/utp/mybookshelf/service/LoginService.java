@@ -50,11 +50,11 @@ public class LoginService {
         boolean validate = true;
 
         if (TextUtils.isEmpty(email)) {
-            emailLoginLayout.setError(context.getString(R.string.login_email_error));
+            emailLoginLayout.setError(context.getString(R.string.empty_email_error));
             validate = false;
         }
         if (TextUtils.isEmpty(password)) {
-            passwordLoginLayout.setError(context.getString(R.string.login_password_error));
+            passwordLoginLayout.setError(context.getString(R.string.empty_password_error));
             validate = false;
         }
 

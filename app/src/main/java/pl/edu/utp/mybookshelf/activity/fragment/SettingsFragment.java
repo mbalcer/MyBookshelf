@@ -48,17 +48,19 @@ public class SettingsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(SettingsFragment.class.getName(), settings.get(position).getName());
 
-                if (settings.get(position).equals(Setting.CHANGE_PASSWORD)) {
-                    changeActivity(ChangePasswordActivity.class, new Bundle());
-                }
-                if (settings.get(position).equals(Setting.CHANGE_FULL_NAME)) {
-                    changeActivity(ChangeFullNameActivity.class, new Bundle());
-                }
-                if (settings.get(position).equals(Setting.CHANGE_EMAIL)) {
-                    changeActivity(ChangeEmailActivity.class, new Bundle());
-                }
-                if (settings.get(position).equals(Setting.SIGN_OUT)) {
-                    signOut();
+                switch (settings.get(position)) {
+                    case CHANGE_PASSWORD:
+                        changeActivity(ChangePasswordActivity.class, new Bundle());
+                        break;
+                    case CHANGE_EMAIL:
+                        changeActivity(ChangeEmailActivity.class, new Bundle());
+                        break;
+                    case CHANGE_FULL_NAME:
+                        changeActivity(ChangeFullNameActivity.class, new Bundle());
+                        break;
+                    case SIGN_OUT:
+                        signOut();
+                        break;
                 }
             }
         });

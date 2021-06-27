@@ -59,7 +59,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
 
     private boolean validate(String email) {
         if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            newEmailLayout.setError(getString(R.string.register_email_error));
+            newEmailLayout.setError(getString(R.string.incorrect_email_error));
             return false;
         }
 
