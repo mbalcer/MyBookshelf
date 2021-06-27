@@ -2,6 +2,7 @@ package pl.edu.utp.mybookshelf.activity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -26,6 +28,7 @@ import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.database.FirebaseBook;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
+import pl.edu.utp.mybookshelf.model.Quote;
 import pl.edu.utp.mybookshelf.model.Review;
 import pl.edu.utp.mybookshelf.model.User;
 import pl.edu.utp.mybookshelf.model.UserBook;
@@ -33,10 +36,13 @@ import pl.edu.utp.mybookshelf.model.UserBook;
 public class BookMyDataFragment extends Fragment {
     private DBHelper dbHelper;
     private Book book;
+    private FirebaseAuth auth;
 
     private RatingBar reviewRatingBar;
     private TextInputEditText reviewInputText;
-    private FirebaseAuth auth;
+    private TextInputEditText quoteInputText;
+    private TextInputLayout quoteInputTextLayout;
+    private TextInputEditText quoteInputPage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +69,15 @@ public class BookMyDataFragment extends Fragment {
 
         reviewRatingBar = inflate.findViewById(R.id.your_review_rating);
         reviewInputText = inflate.findViewById(R.id.your_review_text);
+        quoteInputText = inflate.findViewById(R.id.your_quote_text);
+        quoteInputTextLayout = inflate.findViewById(R.id.your_quote_text_layout);
+        quoteInputPage = inflate.findViewById(R.id.your_quote_page);
 
         Button addReviewButton = inflate.findViewById(R.id.add_review_to_book);
         addReviewButton.setOnClickListener(view -> addReview());
+
+        Button addQuoteButton = inflate.findViewById(R.id.add_quote_to_book);
+        addQuoteButton.setOnClickListener(view -> addQuote());
 
         return inflate;
     }
@@ -108,7 +120,7 @@ public class BookMyDataFragment extends Fragment {
             }
             FirebaseBook.update(book);
             Log.d(BookMyDataFragment.class.getName(), "Saved new review for book: " + book.getId());
-            openBookReviewsFragment();
+            openBookFragment(2);
         }
     }
 
@@ -123,10 +135,45 @@ public class BookMyDataFragment extends Fragment {
         }
     }
 
-    private void openBookReviewsFragment() {
+    private void addQuote() {
+        if (checkQuoteData()) {
+            Quote quote = new Quote();
+            quote.setText(quoteInputText.getText().toString());
+            String quotePage = quoteInputPage.getText().toString();
+            if (!quotePage.trim().isEmpty()) {
+                quote.setPage(quotePage);
+            }
+            FirebaseUser currentUser = auth.getCurrentUser();
+            User quoteUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getEmail());
+            quote.setUser(quoteUser);
+
+            if (book.getQuotes() == null) {
+                book.setQuotes(Collections.singletonList(quote));
+            } else {
+                book.getQuotes().add(quote);
+            }
+            FirebaseBook.update(book);
+            Log.d(BookMyDataFragment.class.getName(), "Saved new quote for book: " + book.getId());
+            openBookFragment(3);
+        }
+    }
+
+    private boolean checkQuoteData() {
+        quoteInputTextLayout.setError(null);
+        boolean validData = true;
+
+        Editable textEditable = quoteInputText.getText();
+        if (textEditable == null || textEditable.toString().trim().isEmpty()) {
+            quoteInputTextLayout.setError("To pole jest wymagane");
+            validData = false;
+        }
+        return validData;
+    }
+
+    private void openBookFragment(Integer tabIndex) {
         Intent intent = new Intent(getContext(), BookActivity.class);
         intent.putExtra("book", book);
-        intent.putExtra("tab", 2);
+        intent.putExtra("tab", tabIndex);
         startActivity(intent);
     }
 
