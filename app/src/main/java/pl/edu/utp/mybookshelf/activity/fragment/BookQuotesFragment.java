@@ -68,7 +68,8 @@ public class BookQuotesFragment extends Fragment {
             for (int i = 0; i < adapter.getCount(); i++) {
                 View item = adapter.getView(i, null, listView);
                 item.measure(0, 0);
-                totalHeight += item.getMeasuredHeight();
+                totalHeight += item.getMeasuredHeight() + 20;
+                // TODO: to check why this +20 is required
             }
             ViewGroup.LayoutParams params = listView.getLayoutParams();
             params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
