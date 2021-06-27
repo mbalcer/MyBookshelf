@@ -12,6 +12,7 @@ import java.util.Map;
 
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.Category;
+import pl.edu.utp.mybookshelf.model.Quote;
 import pl.edu.utp.mybookshelf.model.Review;
 import pl.edu.utp.mybookshelf.model.User;
 
@@ -92,21 +93,41 @@ public class FirebaseBook {
                 review.setText((String) reviewObject.get("text"));
                 Double rating = reviewObject.get("rating") == null ? null : ((Double) reviewObject.get("rating"));
                 review.setRating(rating.floatValue());
-
-                User user = null;
-                if (reviewObject.get("user") instanceof Map) {
-                    HashMap<String, Object> userObject = (HashMap<String, Object>) reviewObject.get("user");
-                    user = new User();
-                    user.setId(String.valueOf(userObject.get("id")));
-                    user.setEmail(String.valueOf(userObject.get("email")));
-                    user.setPassword(String.valueOf(userObject.get("password")));
-                    user.setFullName(String.valueOf(userObject.get("fullName")));
-                }
+                review.setReviewTime((String) reviewObject.get("reviewTime"));
+                User user = getUserDataFromMap(reviewObject);
                 review.setUser(user);
                 reviews.add(review);
             }
             book.setReviews(reviews);
         }
+
+        List<Quote> quotes = new ArrayList<>();
+        if (document.get("quotes") instanceof List) {
+            List<HashMap<String, Object>> quoteObjects = (List<HashMap<String, Object>>) document.get("quotes");
+            for (HashMap<String, Object> quoteObject : quoteObjects) {
+                Quote quote = new Quote();
+                quote.setText((String) quoteObject.get("text"));
+                quote.setPage((String) quoteObject.get("page"));
+                quote.setPublishTime((String) quoteObject.get("publishTime"));
+                User user = getUserDataFromMap(quoteObject);
+                quote.setUser(user);
+                quotes.add(quote);
+            }
+            book.setQuotes(quotes);
+        }
+    }
+
+    private static User getUserDataFromMap(HashMap<String, Object> objectMap) {
+        User user = null;
+        if (objectMap.get("user") instanceof Map) {
+            HashMap<String, Object> userObject = (HashMap<String, Object>) objectMap.get("user");
+            user = new User();
+            user.setId(String.valueOf(userObject.get("id")));
+            user.setEmail(String.valueOf(userObject.get("email")));
+            user.setPassword(String.valueOf(userObject.get("password")));
+            user.setFullName(String.valueOf(userObject.get("fullName")));
+        }
+        return user;
     }
 
 }

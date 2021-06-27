@@ -25,6 +25,7 @@ public class Book implements Serializable {
 
     private Category category;
     private List<Review> reviews;
+    private List<Quote> quotes;
 
     public Book(String author, String title) {
         this.author = author;
