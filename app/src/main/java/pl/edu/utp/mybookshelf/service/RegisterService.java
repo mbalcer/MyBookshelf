@@ -68,7 +68,7 @@ public class RegisterService {
             emailRegisterLayout.setError(context.getString(R.string.register_email_error));
             validate = false;
         }
-        Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*[!@#$&*])(?=.*[0-9]).{8}$");
+        Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$");
         if (TextUtils.isEmpty(password) || !PASSWORD_PATTERN.matcher(password).matches()) {
             passwordRegisterLayout.setError(context.getString(R.string.register_password_error));
             validate = false;

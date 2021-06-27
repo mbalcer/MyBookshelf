@@ -64,7 +64,7 @@ public class LoginService {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(context, task -> {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(context, "Logowanie się nie powiodło" + task.getException(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Logowanie się nie powiodło: " + task.getException(), Toast.LENGTH_LONG).show();
                     } else {
                         context.openMainActivity();
                     }
