@@ -28,9 +28,10 @@ public class ChangeEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_email);
 
         auth = FirebaseAuth.getInstance();
-
         newEmailText = findViewById(R.id.change_email_text);
         newEmailLayout = findViewById(R.id.change_email_text_layout);
+
+        newEmailText.setText(auth.getCurrentUser().getEmail());
 
         findViewById(R.id.change_email_button).setOnClickListener(view -> {
             newEmailText.setError(null);
@@ -49,7 +50,6 @@ public class ChangeEmailActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Poprawnie zmieniono adres email", Toast.LENGTH_LONG).show();
-                        newEmailText.setText("");
                     } else {
                         Toast.makeText(this, "Wystąpił błąd podczas zmiany adresu email: " + task.getException(), Toast.LENGTH_SHORT).show();
                         Log.d(ChangeEmailActivity.class.getName(), String.valueOf(task.getException()));

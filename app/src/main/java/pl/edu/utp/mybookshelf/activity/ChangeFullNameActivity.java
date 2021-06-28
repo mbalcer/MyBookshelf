@@ -28,9 +28,12 @@ public class ChangeFullNameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_full_name);
 
         auth = FirebaseAuth.getInstance();
-
         fullNameText = findViewById(R.id.change_full_name_text);
         fullNameLayout = findViewById(R.id.change_full_name_text_layout);
+
+        if (auth.getCurrentUser().getDisplayName() != null) {
+            fullNameText.setText(auth.getCurrentUser().getDisplayName());
+        }
 
         findViewById(R.id.change_full_name_button).setOnClickListener(view -> {
             fullNameLayout.setError(null);
@@ -52,7 +55,6 @@ public class ChangeFullNameActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Poprawnie zmieniono imię i nazwisko", Toast.LENGTH_LONG).show();
-                        fullNameText.setText("");
                     } else {
                         Toast.makeText(this, "Wystąpił błąd podczas zmiany danych: " + task.getException(), Toast.LENGTH_SHORT).show();
                         Log.d(ChangeFullNameActivity.class.getName(), String.valueOf(task.getException()));
