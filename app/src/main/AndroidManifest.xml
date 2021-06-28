@@ -30,13 +30,10 @@
             android:label="@string/add_book_info"
             android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.ChangeEmailActivity"
-            android:parentActivityName=".activity.MainActivity"
             android:label="@string/change_email_title"/>
         <activity android:name=".activity.ChangeFullNameActivity"
-            android:parentActivityName=".activity.MainActivity"
             android:label="@string/change_full_name_title"/>
         <activity android:name=".activity.ChangePasswordActivity"
-            android:parentActivityName=".activity.MainActivity"
             android:label="@string/change_password_title"/>
         <activity android:name=".activity.ScannerActivity"
             android:parentActivityName=".activity.MainActivity"/>

@@ -8,9 +8,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.model.Book;
@@ -26,7 +27,9 @@ public class BookshelfListAdapter extends BaseExpandableListAdapter {
     public BookshelfListAdapter(Activity context, Map<BookState, List<Book>> books) {
         this.context = context;
         this.books = books;
-        this.listTitles = new ArrayList<>(books.keySet());
+        this.listTitles = books.keySet().stream()
+                .sorted(Comparator.comparingInt(state -> state.order))
+                .collect(Collectors.toList());
     }
 
     @Override
