@@ -62,8 +62,12 @@ public class ReviewListAdapter implements ListAdapter {
         TextView timeText = rowView.findViewById(R.id.review_time);
         TextView reviewText = rowView.findViewById(R.id.review_text);
 
-        if (reviews.get(position).getUser() != null && !reviews.get(position).getUser().getFullName().isEmpty()) {
-            userText.setText(reviews.get(position).getUser().getFullName());
+        if (reviews.get(position).getUser() != null) {
+            if (reviews.get(position).getUser().getFullName() != null && !reviews.get(position).getUser().getFullName().isEmpty()) {
+                userText.setText(reviews.get(position).getUser().getFullName());
+            } else {
+                userText.setText(reviews.get(position).getUser().getEmail());
+            }
         }
         ratingBar.setRating(reviews.get(position).getRating());
         timeText.setText(reviews.get(position).getReviewTime());

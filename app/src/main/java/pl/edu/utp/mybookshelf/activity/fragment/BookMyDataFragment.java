@@ -37,6 +37,7 @@ public class BookMyDataFragment extends Fragment {
     private DBHelper dbHelper;
     private Book book;
     private FirebaseAuth auth;
+    private User loggedUser;
 
     private RatingBar reviewRatingBar;
     private TextInputEditText reviewInputText;
@@ -49,6 +50,9 @@ public class BookMyDataFragment extends Fragment {
         super.onCreate(savedInstanceState);
         dbHelper = new DBHelper(getContext());
         auth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        loggedUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName());
     }
 
     @Override
@@ -109,9 +113,7 @@ public class BookMyDataFragment extends Fragment {
             if (!reviewText.trim().isEmpty()) {
                 review.setText(reviewText);
             }
-            FirebaseUser currentUser = auth.getCurrentUser();
-            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName());
-            review.setUser(reviewUser);
+            review.setUser(loggedUser);
 
             if (book.getReviews() == null) {
                 book.setReviews(Collections.singletonList(review));
@@ -143,9 +145,7 @@ public class BookMyDataFragment extends Fragment {
             if (!quotePage.trim().isEmpty()) {
                 quote.setPage(quotePage);
             }
-            FirebaseUser currentUser = auth.getCurrentUser();
-            User quoteUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName());
-            quote.setUser(quoteUser);
+            quote.setUser(loggedUser);
 
             if (book.getQuotes() == null) {
                 book.setQuotes(Collections.singletonList(quote));

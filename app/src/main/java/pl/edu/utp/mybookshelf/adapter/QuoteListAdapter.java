@@ -64,8 +64,12 @@ public class QuoteListAdapter implements ListAdapter {
         if (quotes.get(position).getPage() != null && !quotes.get(position).getPage().isEmpty()) {
             pageText.setText("Strona " + quotes.get(position).getPage());
         }
-        if (quotes.get(position).getUser() != null && !quotes.get(position).getUser().getFullName().isEmpty()) {
-            userText.setText(quotes.get(position).getUser().getFullName());
+        if (quotes.get(position).getUser() != null) {
+            if (quotes.get(position).getUser().getFullName() != null && !quotes.get(position).getUser().getFullName().isEmpty()) {
+                userText.setText(quotes.get(position).getUser().getFullName());
+            } else {
+                userText.setText(quotes.get(position).getUser().getEmail());
+            }
         }
         return rowView;
     }
