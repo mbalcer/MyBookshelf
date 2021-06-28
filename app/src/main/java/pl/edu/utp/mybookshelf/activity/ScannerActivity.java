@@ -64,6 +64,7 @@ public class ScannerActivity extends AppCompatActivity {
                 } else {
                     intent.putExtra("resultScanner", false);
                 }
+                intent.putExtra("tab", 1);
                 startActivity(intent);
             }
         }, isbn);

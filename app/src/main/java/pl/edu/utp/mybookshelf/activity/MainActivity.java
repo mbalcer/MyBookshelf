@@ -32,9 +32,20 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
 
-        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("resultScanner") != null) {
-            loadFragment(new SearchFragment());
-            bottomNavigation.setSelectedItemId(R.id.explore_page);
+        if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("tab") != null) {
+            int tab = getIntent().getExtras().getInt("tab");
+            switch (tab) {
+                case 1:
+                    loadFragment(new SearchFragment());
+                    bottomNavigation.setSelectedItemId(R.id.explore_page);
+                    break;
+                case 2:
+                    loadFragment(new SettingsFragment());
+                    bottomNavigation.setSelectedItemId(R.id.settings_page);
+                    break;
+                default:
+                    loadFragment(new BookshelfFragment());
+            }
         } else {
             loadFragment(new BookshelfFragment());
         }

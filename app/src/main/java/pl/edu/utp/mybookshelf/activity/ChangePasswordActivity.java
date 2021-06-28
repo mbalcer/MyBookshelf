@@ -1,5 +1,6 @@
 package pl.edu.utp.mybookshelf.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -107,5 +108,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
         oldPasswordLayout.setError(null);
         newPasswordLayout.setError(null);
         confirmNewPasswordLayout.setError(null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("tab", 2);
+        startActivity(intent);
+        finish();
     }
 }
