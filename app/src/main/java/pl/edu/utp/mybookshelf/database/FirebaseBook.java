@@ -123,7 +123,6 @@ public class FirebaseBook {
             user = new User();
             user.setId(String.valueOf(userObject.get("id")));
             user.setEmail(String.valueOf(userObject.get("email")));
-            user.setPassword(String.valueOf(userObject.get("password")));
             user.setFullName(String.valueOf(userObject.get("fullName")));
         }
         return user;

@@ -110,7 +110,7 @@ public class BookMyDataFragment extends Fragment {
                 review.setText(reviewText);
             }
             FirebaseUser currentUser = auth.getCurrentUser();
-            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getDisplayName());
+            User reviewUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName());
             review.setUser(reviewUser);
 
             if (book.getReviews() == null) {
@@ -144,7 +144,7 @@ public class BookMyDataFragment extends Fragment {
                 quote.setPage(quotePage);
             }
             FirebaseUser currentUser = auth.getCurrentUser();
-            User quoteUser = new User(currentUser.getUid(), currentUser.getEmail(), "", currentUser.getEmail());
+            User quoteUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName());
             quote.setUser(quoteUser);
 
             if (book.getQuotes() == null) {

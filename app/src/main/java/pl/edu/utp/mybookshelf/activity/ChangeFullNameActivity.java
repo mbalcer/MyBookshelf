@@ -37,13 +37,13 @@ public class ChangeFullNameActivity extends AppCompatActivity {
             String fullName = fullNameText.getText().toString().trim();
 
             if (validate(fullName)) {
-                changeEmail(fullName);
+                changeFullName(fullName);
             }
         });
 
     }
 
-    private void changeEmail(String fullName) {
+    private void changeFullName(String fullName) {
         FirebaseUser user = auth.getCurrentUser();
         UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                 .setDisplayName(fullName)
