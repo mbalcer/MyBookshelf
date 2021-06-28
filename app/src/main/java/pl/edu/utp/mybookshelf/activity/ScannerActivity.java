@@ -47,9 +47,12 @@ public class ScannerActivity extends AppCompatActivity {
                 } else {
                     backToSearchActivity(isbn);
                 }
+            } else {
+                onBackPressed();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+            onBackPressed();
         }
     }
 
@@ -76,4 +79,17 @@ public class ScannerActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent;
+        if (parentClassIsAddBookActivity) {
+            intent = new Intent(this, AddBookActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+            intent.putExtra("tab", 1);
+        }
+        startActivity(intent);
+        finish();
+    }
 }

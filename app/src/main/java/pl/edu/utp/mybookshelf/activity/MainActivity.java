@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("tab") != null) {
             int tab = getIntent().getExtras().getInt("tab");
+            getIntent().removeExtra("tab");
             switch (tab) {
                 case 1:
                     loadFragment(new SearchFragment());
