@@ -127,13 +127,13 @@ public class BookMyDataFragment extends Fragment {
     }
 
     private boolean userReviewExists() {
-        String loggedEmail = auth.getCurrentUser().getEmail();
+        String loggedId = loggedUser.getId();
         if (book.getReviews() == null || book.getReviews().isEmpty()) {
             return false;
         } else {
             return book.getReviews().stream()
                     .anyMatch(review -> review.getUser() != null
-                            && review.getUser().getEmail().equals(loggedEmail));
+                            && review.getUser().getId().equals(loggedId));
         }
     }
 
