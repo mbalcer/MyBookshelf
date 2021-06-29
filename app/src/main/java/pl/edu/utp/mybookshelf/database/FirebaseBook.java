@@ -91,9 +91,9 @@ public class FirebaseBook {
             for (HashMap<String, Object> reviewObject : reviewObjects) {
                 Review review = new Review();
                 review.setText((String) reviewObject.get("text"));
-                Double rating = reviewObject.get("rating") == null ? null : ((Double) reviewObject.get("rating"));
+                Double rating = reviewObject.get("rating") == null ? null : Double.parseDouble(String.valueOf(reviewObject.get("rating")));
                 review.setRating(rating.floatValue());
-                review.setReviewTime((String) reviewObject.get("reviewTime"));
+                review.setReviewTime(String.valueOf(reviewObject.get("reviewTime")));
                 User user = getUserDataFromMap(reviewObject);
                 review.setUser(user);
                 reviews.add(review);
