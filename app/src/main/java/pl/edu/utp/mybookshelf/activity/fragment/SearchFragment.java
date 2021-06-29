@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,16 +40,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseBook.getAllBooks(new FirebaseCallback<Book>() {
-            @Override
-            public void getAll(List<Book> list) {
-                allBooks = list.stream()
-                        .sorted(Comparator.comparing(Book::getTitle))
-                        .collect(Collectors.toList());
-                booksFound = allBooks;
-                setSearchResultAdapter();
-            }
-        });
     }
 
     @Override
@@ -61,13 +52,24 @@ public class SearchFragment extends Fragment {
             boolean resultScanner = getActivity().getIntent().getExtras().getBoolean("resultScanner");
             if (resultScanner) {
                 Book scannedBook = (Book) getActivity().getIntent().getExtras().getSerializable("scannedBook");
-                booksFound.add(scannedBook);
+                booksFound = Collections.singletonList(scannedBook);
                 setSearchResultAdapter();
             } else {
                 setEmptySearchResultAdapter();
             }
             getActivity().getIntent().removeExtra("resultScanner");
             getActivity().getIntent().removeExtra("scannedBook");
+        } else {
+            FirebaseBook.getAllBooks(new FirebaseCallback<Book>() {
+                @Override
+                public void getAll(List<Book> list) {
+                    allBooks = list.stream()
+                            .sorted(Comparator.comparing(Book::getTitle))
+                            .collect(Collectors.toList());
+                    booksFound = allBooks;
+                    setSearchResultAdapter();
+                }
+            });
         }
 
         FloatingActionButton scanBookButton = inflate.findViewById(R.id.scan_book_button);
