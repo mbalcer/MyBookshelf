@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,11 @@ public class SearchFragment extends Fragment {
         FirebaseBook.getAllBooks(new FirebaseCallback<Book>() {
             @Override
             public void getAll(List<Book> list) {
-                allBooks = list;
+                allBooks = list.stream()
+                        .sorted(Comparator.comparing(Book::getTitle))
+                        .collect(Collectors.toList());
+                booksFound = allBooks;
+                setSearchResultAdapter();
             }
         });
     }
