@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout android:id="@+id/activity_book_layout"
+    <LinearLayout
+        android:id="@+id/activity_book_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -53,9 +54,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/golden"
-                        android:progressTint="@color/golden"
+                        android:numStars="1"
                         android:padding="2dp"
-                        android:secondaryProgressTint="@color/golden"
+                        android:progressTint="@color/golden"
+                        android:secondaryProgressTint="#00000000"
+                        android:stepSize="0.01"
                         android:transformPivotX="0dp" />
 
                     <TextView
@@ -68,26 +71,37 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ratings_number_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toEndOf="@id/avg_rating_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
                 </RelativeLayout>
 
                 <Button
                     android:id="@+id/book_in_bookshelf_button"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    android:theme="@style/emerald_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:layout_marginLeft="2dp"
-                    android:text="@string/add_book_to_bookshelf_button" />
+                    android:text="@string/add_book_to_bookshelf_button"
+                    android:theme="@style/emerald_btn" />
             </LinearLayout>
 
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/book_details_menu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/book_details_menu">
+            android:layout_height="wrap_content">
 
         </com.google.android.material.tabs.TabLayout>
 

@@ -110,16 +110,18 @@ public class BookActivity extends AppCompatActivity {
     private void setRating() {
         RatingBar ratingBar = findViewById(R.id.avg_rating_bar);
         TextView ratingText = findViewById(R.id.avg_rating_text);
+        TextView ratingsNumber = findViewById(R.id.ratings_number_text);
 
         if (Optional.ofNullable(book.getReviews()).isPresent() && book.getReviews().size() > 0) {
-            Double avgRating = book.getReviews()
+            double avgRating = book.getReviews()
                     .stream()
                     .mapToDouble(Review::getRating)
                     .average()
                     .orElse(Double.NaN);
 
-            ratingBar.setRating(avgRating.floatValue());
+            ratingBar.setRating((float) (avgRating / 5.0));
             ratingText.setText(String.format("%.2f", avgRating));
+            ratingsNumber.setText("(" + book.getReviews().size() + ")");
         }
     }
 

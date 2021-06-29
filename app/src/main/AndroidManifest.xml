@@ -27,8 +27,7 @@
         <activity android:name=".activity.BookActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity android:name=".activity.AddBookActivity"
-            android:label="@string/add_book_info"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:label="@string/add_book_info"/>
         <activity android:name=".activity.ChangeEmailActivity"
             android:label="@string/change_email_title"/>
         <activity android:name=".activity.ChangeFullNameActivity"
