@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = getSupportActionBar();
 
         dbHelper = new DBHelper(this);
-        initLocalDatabase();
+//        initLocalDatabase();
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
 
@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initLocalDatabase() {
-        dbHelper.setBookAsToRead("1");
-        dbHelper.setBookAsToRead("2");
-        dbHelper.setBookAsToRead("3");
-        dbHelper.setBookAsToRead("4");
-        dbHelper.setBookAsToRead("5");
-        dbHelper.setBookAsRead("1");
-        dbHelper.setBookAsRead("2");
-        dbHelper.setBookAsRead("3");
+//        dbHelper.setBookAsToRead("1");
+//        dbHelper.setBookAsToRead("2");
+//        dbHelper.setBookAsToRead("3");
+//        dbHelper.setBookAsToRead("4");
+//        dbHelper.setBookAsToRead("5");
+//        dbHelper.setBookAsRead("1");
+//        dbHelper.setBookAsRead("2");
+//        dbHelper.setBookAsRead("3");
     }
 
 }

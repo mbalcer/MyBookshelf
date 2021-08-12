@@ -27,15 +27,18 @@ import pl.edu.utp.mybookshelf.activity.fragment.BookMyDataFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.BookQuotesFragment;
 import pl.edu.utp.mybookshelf.activity.fragment.BookReviewsFragment;
 import pl.edu.utp.mybookshelf.adapter.ViewPagerAdapter;
-import pl.edu.utp.mybookshelf.database.DBHelper;
+import pl.edu.utp.mybookshelf.database.LocalDatabase;
+import pl.edu.utp.mybookshelf.database.dao.UserBookDao;
 import pl.edu.utp.mybookshelf.model.Book;
+import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Review;
+import pl.edu.utp.mybookshelf.model.UserBook;
 import pl.edu.utp.mybookshelf.utils.ImageLoader;
 
 public class BookActivity extends AppCompatActivity {
 
     private ActionBar toolbar;
-    private DBHelper dbHelper;
+    private UserBookDao userBookDao;
 
     private Book book;
     private List<String> titleTabs = new ArrayList<>();
@@ -46,7 +49,7 @@ public class BookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
         toolbar = getSupportActionBar();
-        dbHelper = new DBHelper(getApplicationContext());
+        userBookDao = LocalDatabase.getInstance(getApplicationContext()).userBookDao();
         if (getIntent().getExtras() != null && getIntent().getExtras().getSerializable("book") != null) {
             book = (Book) getIntent().getExtras().getSerializable("book");
             toolbar.setTitle(book.getTitle());
@@ -59,7 +62,7 @@ public class BookActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.book_image);
         Button bookInBookshelfBtn = findViewById(R.id.book_in_bookshelf_button);
 
-        if (dbHelper.getUserBookByBookId(book.getId()).getBookId() != null) {
+        if (userBookDao.getUserBookByBookId(book.getId()).isPresent()) {
             bookInBookshelfBtn.setText(R.string.delete_book_from_bookshelf_button);
             bookInBookshelfBtn.setOnClickListener(bookInBookshelfBtnClickListener(true));
             bookInBookshelfBtn.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.alizarin));
@@ -129,7 +132,7 @@ public class BookActivity extends AppCompatActivity {
         titleTabs.add("Info");
         tabs.add(new BookInfoFragment());
 
-        if (dbHelper.getUserBookByBookId(book.getId()).getBookId() != null) {
+        if (userBookDao.getUserBookByBookId(book.getId()).isPresent()) {
             titleTabs.add("Moje dane");
             tabs.add(new BookMyDataFragment());
         }
@@ -146,9 +149,16 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (delete) {
-                    dbHelper.deleteById(book.getId());
+                    userBookDao.deleteById(book.getId());
                 } else {
-                    dbHelper.setBookAsToRead(book.getId());
+                    Optional<UserBook> userBook = userBookDao.getUserBookByBookId(book.getId());
+                    if (userBook.isPresent()) {
+                        userBook.get().setState(BookState.TO_READ);
+                        userBookDao.update(userBook.get());
+                    } else {
+                        UserBook newUserBook = new UserBook(book.getId(), BookState.TO_READ);
+                        userBookDao.insert(newUserBook);
+                    }
                 }
                 reloadActivity();
             }
