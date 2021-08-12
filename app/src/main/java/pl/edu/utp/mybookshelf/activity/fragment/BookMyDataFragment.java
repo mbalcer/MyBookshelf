@@ -1,6 +1,7 @@
 package pl.edu.utp.mybookshelf.activity.fragment;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -24,8 +25,9 @@ import java.util.Collections;
 
 import pl.edu.utp.mybookshelf.R;
 import pl.edu.utp.mybookshelf.activity.BookActivity;
-import pl.edu.utp.mybookshelf.database.DBHelper;
 import pl.edu.utp.mybookshelf.database.FirebaseBook;
+import pl.edu.utp.mybookshelf.database.LocalDatabase;
+import pl.edu.utp.mybookshelf.database.dao.UserBookDao;
 import pl.edu.utp.mybookshelf.model.Book;
 import pl.edu.utp.mybookshelf.model.BookState;
 import pl.edu.utp.mybookshelf.model.Quote;
@@ -34,7 +36,7 @@ import pl.edu.utp.mybookshelf.model.User;
 import pl.edu.utp.mybookshelf.model.UserBook;
 
 public class BookMyDataFragment extends Fragment {
-    private DBHelper dbHelper;
+    private UserBookDao userBookDao;
     private Book book;
     private FirebaseAuth auth;
     private User loggedUser;
@@ -48,7 +50,7 @@ public class BookMyDataFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DBHelper(getContext());
+        userBookDao = LocalDatabase.getInstance(getContext()).userBookDao();
         auth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -64,7 +66,7 @@ public class BookMyDataFragment extends Fragment {
         }
 
         SwitchMaterial switchIsRead = inflate.findViewById(R.id.book_is_read);
-        UserBook userBook = dbHelper.getUserBookByBookId(book.getId());
+        UserBook userBook = userBookDao.getUserBookByBookId(book.getId()).orElseThrow(Resources.NotFoundException::new);
         if (BookState.READ.equals(userBook.getState()))
             switchIsRead.setChecked(true);
         else
@@ -90,13 +92,15 @@ public class BookMyDataFragment extends Fragment {
         return new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UserBook userBook = userBookDao.getUserBookByBookId(book.getId()).orElseThrow(Resources.NotFoundException::new);
                 if (isChecked) {
-                    dbHelper.setBookAsRead(book.getId());
+                    userBook.setState(BookState.READ);
                     Log.d(BookMyDataFragment.class.getName(), "You set book " + book.getTitle() + " as read");
                 } else {
-                    dbHelper.setBookAsToRead(book.getId());
+                    userBook.setState(BookState.TO_READ);
                     Log.d(BookMyDataFragment.class.getName(), "You set book " + book.getTitle() + " as to read");
                 }
+                userBookDao.update(userBook);
             }
         };
     }
